@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="{{ site.lang | default: " en-US" }}">
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="{{ '/assets/css/style.css?v=' | append: site.github.build_revision | relative_url }}">
+    {% include head-custom.html %}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script src="/assets/js/jquery.toc.js"></script>
+
+    <script type="text/javascript">
+        $(function () {
+            $('.header-container').toc({
+                showAlways: true,
+                renderIn: '.sidebar-nav',
+                contentsText: "章节目录",
+                hideText: '收起',
+                showText: '展开',
+                showCollapsed: false
+            });
+        });
+    </script>
+
+    {% seo %}
+</head>
+
+<body>
+
+<main>
+    <!--    <div class="sidebar"></div>-->
+    <button class="sidebar-toggle" aria-label="Menu" onclick="sidebar_toggle()">
+        <div class="sidebar-toggle-button">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </button>
+    <aside class="sidebar">
+        <div id="sidebar-header">
+            <label class="search-container">
+                <input class="search" value placeholder="🔍现在还搜不了">
+            </label>
+            <div class="result-panel"></div>
+        </div>
+        <hr id="sidebar-divide">
+        <div class="sidebar-nav"></div>
+    </aside>
+    <section id="left-side-content">
+        {% include header.html %}
+        <div class="header-container">
+            <section id="main_content">
+                {{ content }}
+            </section>
+        </div>
+    </section>
+</main>
+</body>
+</html>

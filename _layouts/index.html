@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ '/assets/css/style.css?v=' | append: site.github.build_revision | relative_url }}">
+    <link rel="stylesheet" href="/assets/css/index.css">
+</head>
+
+<body>
+<header>
+    <div class="header-container">
+        <a id="a-title" href="{{ '/' | relative_url }}">
+            <p class="p-title">{{ site.title | default: site.github.repository_name }}</p>
+        </a>
+        <div class="header-nav">
+            <p class="p-desc">{{ site.description | default: site.github.project_tagline }}</p>
+            <div class="catalogue-nav">
+                <a href="/" class="btn">Home</a>
+                <a href="/blog.html" class="btn">Catalogue</a>
+                <a href="/about" class="btn">About</a>
+                <a href="{{ site.github.repository_url }}" class="btn btn-github"><span class="icon"></span>Github</a>
+            </div>
+        </div>
+    </div>
+</header>
+<div class="timeEffect">
+    <div class="crop">
+        <ul id="card-list" style="--count: 6;">
+            <li>
+                <div class="card"><a href="">
+                    <span class="model-name">2002-2006</span>
+                    <span>银烛秋光冷画屏，轻罗小扇扑流萤。天阶夜色凉如水，卧看牵牛织女星。</span>
+                </a></div>
+            </li>
+            <li>
+                <div class="card">
+                    <a href="">
+                        <img src="/assets/images/03.gif" alt="">
+                    </a>
+                </div>
+            </li>
+            <li>
+                <div class="card"><a href="">
+                    <span class="model-name">2008-2014</span>
+                    <span>小楼昨夜又东风, 故国不堪回首月明中。 雕栏玉砌应犹在,只是朱颜改。 问君能有几多愁, 恰似一江春水向东流。</span>
+                </a></div>
+            </li>
+            <li>
+                <div class="card"><a href="">
+                    <img src="/assets/images/03.gif" alt="">
+                </a></div>
+            </li>
+            <li>
+                <div class="card"><a href="">
+                    <span class="model-name">2015-2020</span>
+                    <span>千岩万转路不定，迷花倚石忽已暝。世间行乐亦如此，古来万事东流水。安能摧眉折腰事权贵，使我不得开心颜！</span>
+                </a></div>
+            </li>
+            <li>
+                <div class="card"><a href="">
+                    <img src="/assets/images/03.gif" alt="">
+                </a></div>
+            </li>
+        </ul>
+        <div class="last-circle"></div>
+        <div class="second-circle"></div>
+    </div>
+    <div class="mask"></div>
+    <div class="center-circle"></div>
+</div>
+</body>
+
+</html>

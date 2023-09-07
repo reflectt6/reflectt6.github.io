@@ -1,0 +1,14 @@
+---
+layout: default
+title:  "博客目录"
+date:   2023-09-24 17:08:03 +0800
+categories: Catalogue
+author: reflectt6
+permalink: /catalogue
+---
+
+## 运维
+### [使用github.io建站](/blog/2023/09/06/使用github.io建站.html)
+
+## 闲言碎语
+### [2023-09-05-愿有往事可追忆](/about/)
