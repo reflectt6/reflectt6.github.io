@@ -453,7 +453,7 @@ input {
 // 设置滚动条颜色等
 ::-webkit-scrollbar {
   //display: none;
-  width: 0.5%;
+  width: 0;
   height: 0;
 }
 ::-webkit-scrollbar-track {
@@ -461,4 +461,10 @@ input {
 }
 ::-webkit-scrollbar-thumb {
   background-color: #b5e853;
+}
+.sidebar-nav::-webkit-scrollbar-thumb {
+  border-radius: 5px;
+}
+.sidebar-nav::-webkit-scrollbar {
+  width: 5px;
 }
