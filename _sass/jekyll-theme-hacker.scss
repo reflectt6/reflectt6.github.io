@@ -347,8 +347,9 @@ aside {
   //left: 0;
   left: -19%;
   box-sizing: border-box;
-  transition-property: left;
-  transition-duration: 0.1s;
+  //transition-property: left; 性能差，改用transform
+  transition-duration: 250ms;
+  transition-delay: 0s;
   transition-timing-function: ease;
 }
 
@@ -383,10 +384,10 @@ aside {
   box-sizing: border-box;
 }
 .search {
-  width: 100%;
+  width: 90%;
   height: 100%;
   flex-grow: 1;
-  margin: 0;
+  margin: 5%;
   padding: 0;
   border: 1px;
   border: solid #b5e853;
@@ -432,17 +433,32 @@ input {
 
 // 左侧内容区
 #left-side-content {
-  position: relative;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  margin: 0 2% 0 1.5%;
   //left: 19%;
   //width: 80%;
-  left: 2%;
-  width: 96%;
-  transition-property: left,width;
-  transition-duration: 0.1s;
+  left: 0;
+  //width: 96%;
+  //transition-property: left,width;
+  transition-property: left;
+  transition-duration: 250ms;
+  transition-delay: 0s;
   transition-timing-function: ease;
 }
 
 // 去滚动条边框
+// 设置滚动条颜色等
 ::-webkit-scrollbar {
-  display: none;
+  //display: none;
+  width: 0.5%;
+  height: 0;
+}
+::-webkit-scrollbar-track {
+  background-color: #1e191a;
+}
+::-webkit-scrollbar-thumb {
+  background-color: #b5e853;
 }

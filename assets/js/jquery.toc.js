@@ -160,15 +160,13 @@
 function sidebar_toggle() {
     var $st = $(".sidebar-toggle")
     if ($st.css("z-index") === "999") {
-        $("aside").css("left","-19%")
+        $("aside").css("transform","translateX(0)")
         var lsc = $("#left-side-content")
-        lsc.css("width", "96%")
-        lsc.css("left", "2%")
+        lsc.css("left", "0%")
         $st.css("z-index", "998")
     } else {
-        $("aside").css("left","0")
+        $("aside").css("transform","translateX(100%)")
         var lsc = $("#left-side-content")
-        lsc.css("width", "80%")
         lsc.css("left", "19%")
         $st.css("z-index", "999")
     }
