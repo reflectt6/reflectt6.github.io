@@ -1,18 +1,37 @@
 ---
-layout: default
+layout: pageWithSidebar
 title: Blog
+permalink: /blog/
 ---
-<p>临时目录(前端太难了，先凑乎用吧😓)</p>
-
-<ul>
-  {% for post in site.posts %}
-    <li>
-      <p>{{ post.url }}</p>
-      <p>{{ post.title }}</p>
-      <p>{{ post.author }}</p>
-      <p>{{ post.excerpt }}</p>
-      <p>{{ post.mainTag }}</p>
-      <p>{{ post.SecondaryTag }}</p>
-    </li>
-  {% endfor %}
-</ul>
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script src="/assets/js/jquery.blog.js"></script>
+    <script src="/assets/js/jquery.toc.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $('.header-container').toc({
+                showAlways: true,
+                renderIn: '.sidebar-nav',
+                contentsText: "章节目录",
+                hideText: '收起',
+                showText: '展开',
+                showCollapsed: false
+            });
+        });
+    </script>
+</head>
+<!--<p>临时目录(前端太难了，先凑乎用吧😓)</p>-->
+<div id="catalogue-div">
+    <ul id="catalogue-ul">
+        {% for post in site.posts %}
+        <li>
+            <p>{{ post.url }}</p>
+            <p>{{ post.title }}</p>
+            <p>{{ post.mainTag }}</p>
+            <p>{{ post.secondaryTag }}</p>
+            <!--      <p>{{ post.author }}</p>-->
+            <!--      <p>{{ post.excerpt }}</p>-->
+        </li>
+        {% endfor %}
+    </ul>
+</div>

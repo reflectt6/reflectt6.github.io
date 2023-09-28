@@ -1,0 +1,13 @@
+---
+layout: pageWithSidebar
+title:  "testAutoBlog03"
+date:   2023-09-24 17:08:03 +0800
+author: reflectt6
+categories: TEST
+mainTag: "TEST"
+secondaryTag: "SEC2"
+---
+
+## mainTag: "test"
+
+## secondaryTag: "secondaryTag2"

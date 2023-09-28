@@ -1,23 +1,25 @@
 /*
- * jQuery Table of Content Generator for Markdown v1.0
- *
- * https://github.com/dafi/tocmd-generator
- * Examples and documentation at: https://github.com/dafi/tocmd-generator
- *
- * Requires: jQuery v1.7+
- *
- * Copyright (c) 2013 Davide Ficano
- *
- * Dual licensed under the MIT and GPL licenses:
- *   http://www.opensource.org/licenses/mit-license.php
- *   http://www.gnu.org/licenses/gpl.html
+ * Copyright (c) 2023 reflectt6
  */
+
+function active(event) {
+    var act = $("#active")
+    if (act.length > 0) {
+        act.attr("id", "inactive")
+        act[0].innerHTML = act[0].innerHTML.substring(2)
+    }
+    var $li = $(event)
+    $li.attr("id", "active")
+    $li[0].innerHTML = "✅ " + $li[0].innerHTML
+}
+
 (function($) {
     var toggleHTML = '<div id="toctitle"><h2>%1</h2> <span class="toctoggle">[<a id="toctogglelink" class="internal" href="#">%2</a>]</span></div>';
     var tocContainerHTML = '<div id="toc-container"><table class="toc" id="toc"><tbody><tr><td>%1<ul>%2</ul></td></tr></tbody></table></div>';
 
     function createLevelHTML(anchorId, tocLevel, tocSection, tocNumber, tocText, tocInner) {
-        var link = '<a href="#%1"><span class="tocnumber">%2</span> <span class="toctext">%3</span></a>%4'
+        // var link = '<a href="#%1"><span class="tocnumber">%2</span> <span class="toctext">%3</span></a>%4'
+        var link = '<a class="toctext" href="#%1" onclick="active(this)">%2 %3</a>%4'
             .replace('%1', anchorId)
             .replace('%2', tocNumber)
             .replace('%3', tocText)
@@ -71,14 +73,22 @@
             ++firstSection; // 一级索引数 + 1
             ++totalSection; // 总索引数 + 1
 
-            level1.nextUntil(firstHead).filter(secondHead).each(function() {
+            var searchSec = level1.nextUntil(firstHead).filter(secondHead)
+            if (searchSec.length === 0) {
+                searchSec = level1.nextUntil(firstHead).find(secondHead)
+            }
+            searchSec.each(function() {
                 var thirdLevelHTML = '';
                 var thirdSection = 0;
                 var level2 = $(this);
                 ++secondSection; // 二级索引数 + 1
                 ++totalSection; // 总索引数 + 1
 
-                level2.nextUntil(secondHead).filter(thirdHead).each(function () {
+                var thirdSec = level2.nextUntil(secondHead).filter(thirdHead)
+                if (thirdSec.length === 0) {
+                    thirdSec = level2.nextUntil(secondHead).find(thirdHead)
+                }
+                thirdSec.each(function () {
                     var level3 = $(this)
                     ++thirdSection; // 三级索引数 + 1
                     ++totalSection; // 总索引数 + 1
@@ -184,6 +194,18 @@
     }
 })(jQuery);
 
+function startComputeToc() {
+    $('.header-container').toc({
+        showAlways: true,
+        renderIn: '.sidebar-nav',
+        contentsText: "章节目录",
+        hideText: '收起',
+        showText: '展开',
+        showCollapsed: false
+    })
+    return this;
+}
+
 function sidebar_toggle() {
     var $st = $(".sidebar-toggle")
     if ($st.css("z-index") === "999") {
@@ -194,7 +216,7 @@ function sidebar_toggle() {
     } else {
         $("aside").css("transform","translateX(100%)")
         var lsc = $("#left-side-content")
-        lsc.css("left", "19%")
+        lsc.css("left", "20%")
         $st.css("z-index", "999")
     }
 }

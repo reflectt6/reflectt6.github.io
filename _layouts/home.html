@@ -9,22 +9,7 @@
 </head>
 
 <body>
-<header>
-    <div class="header-container">
-        <a id="a-title" href="{{ '/' | relative_url }}">
-            <p class="p-title">{{ site.title | default: site.github.repository_name }}</p>
-        </a>
-        <div class="header-nav">
-            <p class="p-desc">{{ site.description | default: site.github.project_tagline }}</p>
-            <div class="catalogue-nav">
-                <a href="/" class="btn">Home</a>
-                <a href="/blog.html" class="btn">Catalogue</a>
-                <a href="/about" class="btn">About</a>
-                <a href="{{ site.github.repository_url }}" class="btn btn-github"><span class="icon"></span>Github</a>
-            </div>
-        </div>
-    </div>
-</header>
+{% include header.html %}
 <div class="timeEffect">
     <div class="crop">
         <ul id="card-list" style="--count: 6;">

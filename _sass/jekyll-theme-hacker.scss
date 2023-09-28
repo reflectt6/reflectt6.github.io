@@ -18,7 +18,7 @@ $container-max-width: 1000px;
 body {
   margin: 0;
   padding: 0;
-  background: $body-background url("../images/bkg.png") 0 0;
+  background: $body-background url("/assets/images/bkg.png") 0 0;
   color: $body-foreground;
   font-size: 16px;
   line-height: 1.5;
@@ -30,6 +30,7 @@ body {
 .header-container {
   width: 90%;
   max-width: $container-max-width;
+  min-height: 60%;
   margin: 0 auto;
 }
 
@@ -150,8 +151,8 @@ dt {
   font-weight: bold;
 }
 
-ul li {
-  list-style-image:url('../images/bullet.png');
+ul li :not(#toc ul li) {
+  list-style-image:url('/assets/images/bullet.png');
 }
 
 blockquote {
@@ -238,7 +239,7 @@ hr {
 
 .btn-github .icon {
   opacity: 0.6;
-  background: url("../images/blacktocat.png") 0 0 no-repeat;
+  background: url("/assets/images/blacktocat.png") 0 0 no-repeat;
 }
 
 /* Links
@@ -340,12 +341,12 @@ a {
 // 侧边栏框架
 aside {
   height: 100%;
-  width: 19%;
+  width: 20%;
   //visibility: hidden;
   position: fixed;
   top: 0;
   //left: 0;
-  left: -19%;
+  left: -20%;
   box-sizing: border-box;
   //transition-property: left; 性能差，改用transform
   transition-duration: 250ms;
@@ -438,6 +439,7 @@ input {
   bottom: 0;
   right: 0;
   margin: 0 2% 0 1.5%;
+  min-height: 100vh;
   //left: 19%;
   //width: 80%;
   left: 0;
@@ -447,6 +449,7 @@ input {
   transition-duration: 250ms;
   transition-delay: 0s;
   transition-timing-function: ease;
+  overflow-x: clip;
 }
 
 // 去滚动条边框
@@ -467,4 +470,21 @@ input {
 }
 .sidebar-nav::-webkit-scrollbar {
   width: 5px;
+}
+
+.blog1:before {
+  content: "🫑";
+}
+
+.blog2:before {
+  content: '🥦';
+}
+
+.blog3:before {
+  content: "🥝";
+}
+
+.footer {
+  position: relative;
+  height: 15%;
 }

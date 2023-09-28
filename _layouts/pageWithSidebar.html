@@ -28,24 +28,7 @@
 <body>
 
 <main>
-    <!--    <div class="sidebar"></div>-->
-    <button class="sidebar-toggle" aria-label="Menu" onclick="sidebar_toggle()">
-        <div class="sidebar-toggle-button">
-            <span></span>
-            <span></span>
-            <span></span>
-        </div>
-    </button>
-    <aside class="sidebar">
-        <div id="sidebar-header">
-            <label class="search-container">
-                <input class="search" value placeholder="🔍现在还搜不了">
-            </label>
-            <div class="result-panel"></div>
-        </div>
-        <hr id="sidebar-divide">
-        <div class="sidebar-nav"></div>
-    </aside>
+    {% include sidebar.html %}
     <section id="left-side-content">
         {% include header.html %}
         <div class="header-container">
@@ -53,6 +36,7 @@
                 {{ content }}
             </section>
         </div>
+        {% include footer.html %}
     </section>
 </main>
 </body>
