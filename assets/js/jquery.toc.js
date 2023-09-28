@@ -30,9 +30,9 @@
 
     function checkMaxHead($root) {
         if ($root.find('h1').length > 0) {
-            return ['h1', 'h2'];
+            return ['h1', 'h2', 'h3'];
         } else {
-            return ['h2', 'h3'];
+            return ['h2', 'h3', 'h4'];
         }
     }
 
@@ -53,50 +53,77 @@
         }
 
         var tocHTML = '';
-        var tocLevel = 1;
-        var tocSection = 1;
-        var itemNumber = 1;
+        var tocLevel = 1; // 表示这是第几级的索引
+        var totalSection = 0; // 表示从上到下 这是第几个索引（全局统计）
+        var firstSection = 0; // 表示这是第几个 一级索引
 
         var tocContainer = $(this);
 
         var heads = checkMaxHead(tocContainer);
         var firstHead = heads[0];
         var secondHead = heads[1];
+        var thirdHead = heads[2];
 
         tocContainer.find(firstHead).each(function() {
-            var levelHTML = '';
-            var innerSection = 0;
-            var h1 = $(this);
+            var secondLevelHTML = '';
+            var secondSection = 0; // 表示这是第几个二级索引
+            var level1 = $(this);
+            ++firstSection; // 一级索引数 + 1
+            ++totalSection; // 总索引数 + 1
 
-            h1.nextUntil(firstHead).filter(secondHead).each(function() {
-                ++innerSection;
-                var anchorId = config.anchorPrefix + tocLevel + '-' + tocSection + '-' +  + innerSection;
-                $(this).attr('id', anchorId);
-                levelHTML += createLevelHTML(anchorId,
-                    tocLevel + 1,
-                    tocSection + innerSection,
-                    itemNumber + '.' + innerSection,
-                    $(this).text());
+            level1.nextUntil(firstHead).filter(secondHead).each(function() {
+                var thirdLevelHTML = '';
+                var thirdSection = 0;
+                var level2 = $(this);
+                ++secondSection; // 二级索引数 + 1
+                ++totalSection; // 总索引数 + 1
+
+                level2.nextUntil(secondHead).filter(thirdHead).each(function () {
+                    var level3 = $(this)
+                    ++thirdSection; // 三级索引数 + 1
+                    ++totalSection; // 总索引数 + 1
+
+                    var curTocLevel = tocLevel + 2;
+                    var anchorId = config.anchorPrefix
+                        + firstSection + '-' + secondSection + '-' + thirdSection;
+                    level3.attr('id', anchorId);
+                    thirdLevelHTML += createLevelHTML(anchorId,
+                        curTocLevel,
+                        totalSection,
+                        firstSection + '.' + secondSection + '.' + thirdSection,
+                        level3.text())
+                })
+
+                if (thirdLevelHTML) {
+                    thirdLevelHTML = '<ul>' + thirdLevelHTML + '</ul>\n';
+                }
+                var curTocLevel = tocLevel + 1;
+                var anchorId = config.anchorPrefix
+                    + firstSection + '-' + secondSection;
+                level2.attr('id', anchorId);
+                secondLevelHTML += createLevelHTML(anchorId,
+                    curTocLevel,
+                    totalSection,
+                    firstSection + '.' + secondSection,
+                    level2.text(),
+                    thirdLevelHTML);
             });
-            if (levelHTML) {
-                levelHTML = '<ul>' + levelHTML + '</ul>\n';
+            if (secondLevelHTML) {
+                secondLevelHTML = '<ul>' + secondLevelHTML + '</ul>\n';
             }
-            var anchorId = config.anchorPrefix + tocLevel + '-' + tocSection;
-            h1.attr('id', anchorId);
+            var anchorId = config.anchorPrefix + firstSection;
+            level1.attr('id', anchorId);
             tocHTML += createLevelHTML(anchorId,
                 tocLevel,
-                tocSection,
-                itemNumber,
-                h1.text(),
-                levelHTML);
-
-            tocSection += 1 + innerSection;
-            ++itemNumber;
+                totalSection,
+                firstSection,
+                level1.text(),
+                secondLevelHTML);
         });
 
         // for convenience itemNumber starts from 1
         // so we decrement it to obtain the index count
-        var tocIndexCount = itemNumber - 1;
+        var tocIndexCount = firstSection - 1;
 
         var show = config.showAlways ? true : config.minItemsToShowToc <= tocIndexCount;
 
