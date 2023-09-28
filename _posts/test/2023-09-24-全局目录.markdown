@@ -1,10 +1,11 @@
 ---
 layout: default
-title:  "博客目录"
+title:  "测试手动创建博客目录"
 date:   2023-09-24 17:08:03 +0800
-categories: Catalogue
 author: reflectt6
-permalink: /catalogue
+categories: test
+mainTag: "test"
+SecondaryTag: ""
 ---
 
 ## 运维
