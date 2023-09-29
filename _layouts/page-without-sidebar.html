@@ -5,30 +5,11 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="{{ '/assets/css/style.css?v=' | append: site.github.build_revision | relative_url }}">
-    {% include head-custom.html %}
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
-    <script src="/assets/js/jquery.toc.js"></script>
-
-    <script type="text/javascript">
-        $(function () {
-            $('.header-container').toc({
-                showAlways: true,
-                renderIn: '.sidebar-nav',
-                contentsText: "章节目录",
-                hideText: '收起',
-                showText: '展开',
-                showCollapsed: false
-            });
-        });
-    </script>
-
     {% seo %}
 </head>
 
 <body>
-
 <main>
-    {% include sidebar.html %}
     <section id="left-side-content">
         {% include header.html %}
         <div class="header-container">

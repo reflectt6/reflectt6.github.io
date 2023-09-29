@@ -1,6 +1,7 @@
 @import "rouge-base16-dark";
 @import "default_colors";
 @import "toc";
+@import "search-bar";
 
 $body-background: $cod-grey !default;
 $body-foreground: $gallery !default;
@@ -329,15 +330,6 @@ a {
   flex-grow: 1;
 }
 
-// 侧边栏
-//.sidebar{
-//  width: auto;
-//  position: relative;
-//  right: 5%;
-//  top: 20px;
-//  flex-grow: 2;
-//  overflow-x: auto;
-//}
 // 侧边栏框架
 aside {
   height: 100%;
@@ -383,16 +375,27 @@ aside {
   top: 35%;
   left: 4%;
   box-sizing: border-box;
+  align-items: center;
+  display: flex;
+  justify-content: center;
 }
 .search {
-  width: 90%;
+  align-items: center;
+  display: flex;
+  justify-content: left;
+  //width: 50%;
   height: 100%;
   flex-grow: 1;
-  margin: 5%;
-  padding: 0;
-  border: 1px;
-  border: solid #b5e853;
+  margin: 0;
+  //padding: 0;
+  //border: 2px solid grey;
+  border: 2px solid;
   font-size: 1rem;
+  padding-inline-start: 1rem;
+  padding-inline-end: 1rem;
+  background-color: #26292b;
+  border-radius: 0.5rem;
+  color: #90a959;
 }
 .app-name {
   top: 100px;
@@ -418,7 +421,7 @@ input {
   margin: 1%;
   background-color: rgba(0, 0, 0, 0);
   border: none;
-  z-index: 998;
+  z-index: 1;
 }
 
 // 侧边栏按钮的三道杠

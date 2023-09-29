@@ -1,3 +1,4 @@
+<script src="/assets/js/jquery.search.js"></script>
 <button class="sidebar-toggle" aria-label="Menu" onclick="sidebar_toggle()">
     <div class="sidebar-toggle-button">
         <span></span>
@@ -7,9 +8,9 @@
 </button>
 <aside class="sidebar">
     <div id="sidebar-header">
-        <label class="search-container">
-            <input class="search" value placeholder="🔍现在还搜不了">
-        </label>
+        <div class="search-container">
+            <div class="search" onclick="open_search_bar()">🔍现在还搜不了</div>
+        </div>
         <div class="result-panel"></div>
     </div>
     <hr id="sidebar-divide">

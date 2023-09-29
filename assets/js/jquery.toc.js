@@ -208,15 +208,15 @@ function startComputeToc() {
 
 function sidebar_toggle() {
     var $st = $(".sidebar-toggle")
-    if ($st.css("z-index") === "999") {
+    if ($st.css("z-index") === "2") {
         $("aside").css("transform","translateX(0)")
         var lsc = $("#left-side-content")
         lsc.css("left", "0%")
-        $st.css("z-index", "998")
+        $st.css("z-index", "1")
     } else {
         $("aside").css("transform","translateX(100%)")
         var lsc = $("#left-side-content")
         lsc.css("left", "20%")
-        $st.css("z-index", "999")
+        $st.css("z-index", "2")
     }
 }

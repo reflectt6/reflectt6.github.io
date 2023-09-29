@@ -1,5 +1,5 @@
 ---
-layout: pageWithSidebar
+layout: page-without-sidebar
 title:  "愿有往事可追忆"
 date:   2023-09-05 17:08:03 +0800
 author: reflectt6

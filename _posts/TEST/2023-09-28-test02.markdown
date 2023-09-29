@@ -1,5 +1,5 @@
 ---
-layout: pageWithSidebar
+layout: page-with-sidebar
 title:  "testAutoBlog02"
 date:   2023-09-24 17:08:03 +0800
 author: reflectt6
