@@ -69,6 +69,7 @@ $(document).ready(function () {
             // ctrl + k 打开搜索
             if (e.ctrlKey && e.which === 75) {
                 open_search_bar()
+                e.preventDefault()
             }
         })
         $body.data("search-shortcut", true)
