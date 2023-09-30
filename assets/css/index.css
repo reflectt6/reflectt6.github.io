@@ -7,17 +7,19 @@
 
 /* 设置页面样式 */
 body {
-    margin-left: 3%;
-    margin-right: 3%;
+    /*margin-left: 3%;*/
+    /*margin-right: 3%;*/
+    margin: 0 2% 0 1.5%;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
     height: 100vh;
-    width: 94%;
+    /*width: 94%;*/
     overflow: hidden;
     /*background-color: #fbc2eb77;*/
     background-image: linear-gradient(to top, darkgreen 0%, #1e191a 100%);
+    box-sizing: border-box;
 }
 
 /* 设置容器样式 */
@@ -248,7 +250,7 @@ li:nth-child(6) .card {
 
 header {
     margin: 0;
-    padding: 0;
+    padding: 20px 0;
 }
 
 /* 重置一下主题自带的列表前缀 bullet.png */
