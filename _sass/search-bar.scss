@@ -186,7 +186,7 @@ $search-zindex: 3;
   box-sizing: border-box;
 }
 
-#search-result {
+#search-results {
   flex-direction: column;
   align-items: center;
   width: 100%;
@@ -196,6 +196,20 @@ $search-zindex: 3;
   box-sizing: border-box;
   border-style: solid;
   border-width: 0;
+
+  overflow: scroll;
+  max-height: 70vh;
+}
+
+#search-results::-webkit-scrollbar-track {
+  background-color: transparent;
+}
+#search-results::-webkit-scrollbar-thumb {
+  background-color: #b5e853;
+  border-radius: 5px;
+}
+#search-results::-webkit-scrollbar {
+  width: 5px;
 }
 
 .result-a {
@@ -313,4 +327,17 @@ $search-zindex: 3;
   margin-inline-end: 0px;
 
   cursor: pointer;
+}
+
+#empty-result {
+  font-size: 2rem;
+  padding: 5vh;
+}
+
+mark {
+  border-radius: 0.375rem;
+  color: #b5e853;
+  background-color: darkgreen;
+  padding-inline: 1px;
+  font-weight: 700;
 }

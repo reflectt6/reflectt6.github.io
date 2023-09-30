@@ -220,3 +220,26 @@ function sidebar_toggle() {
         $st.css("z-index", "2")
     }
 }
+
+$(document).ready(function () {
+    var $body = $("body")
+    // 不知道为啥文档就绪事件会触发两次，通过data标志位，判断事件是否已经被监听，防止多次监听事件带来的方法多次执行问题
+    // https://blog.51cto.com/u_16175504/7284150
+    if(!$body.data("tab-shortcut")) {
+        $body.on("keyup", function (e) {
+            // Tab 切换侧边栏
+            if (e.which === 9) {
+                sidebar_toggle()
+            }
+        })
+        // 移除浏览器默认的tab操作
+        $body.on('keydown', function(e){
+            var keyCode = e.keyCode || e.which;
+            if (keyCode === 9) {
+                e.preventDefault();
+            }
+        });
+        $body.data("tab-shortcut", true)
+    }
+})
+

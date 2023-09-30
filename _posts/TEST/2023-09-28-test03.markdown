@@ -3,7 +3,7 @@ layout: page-with-sidebar
 title:  "testAutoBlog03"
 date:   2023-09-24 17:08:03 +0800
 author: reflectt6
-categories: TEST
+categories: test
 mainTag: "TEST"
 secondaryTag: "SEC2"
 ---

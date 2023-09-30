@@ -377,12 +377,12 @@ aside {
   box-sizing: border-box;
   align-items: center;
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
 }
 .search {
   align-items: center;
   display: flex;
-  justify-content: left;
+  //justify-content: left;
   //width: 50%;
   height: 100%;
   flex-grow: 1;
@@ -396,6 +396,33 @@ aside {
   background-color: #26292b;
   border-radius: 0.5rem;
   color: #90a959;
+  justify-content: space-between;
+}
+.shortcut-prompt {
+  margin-left: 0.5rem;
+  //color: #52a9ff;
+  //background-color: #102a4c;
+  color: #b5e853;
+  background-color: #202425;
+  border: 1px solid transparent;
+  display: inline-block;
+  border-radius: 0.25rem;
+  padding-top: 0.125rem;
+  padding-bottom: 0.125rem;
+  padding-inline-start: 0.5rem;
+  padding-inline-end: 0.5rem;
+  font-size: 0.9rem;
+  line-height: 1;
+  letter-spacing: 0.025em;
+  white-space: nowrap;
+  vertical-align: middle;
+
+  //margin: 0;
+  box-sizing:   border-box;
+
+  word-break: break-all;
+  overflow-wrap: break-word;
+  cursor: pointer;
 }
 .app-name {
   top: 100px;
