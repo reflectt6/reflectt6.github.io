@@ -216,7 +216,8 @@ function sidebar_toggle() {
     } else {
         $("aside").css("transform","translateX(100%)")
         var lsc = $("#left-side-content")
-        lsc.css("left", "20%")
+        // lsc.css("left", "20%")
+        lsc.css("left", "300px")
         $st.css("z-index", "2")
     }
 }

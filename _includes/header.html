@@ -1,7 +1,14 @@
+<script src="/assets/js/jquery-3.7.1.min.js"></script>
+<script src="/assets/js/jquery.search.js"></script>
+<script src="/assets/js/jquery.head-nav.js"></script>
 <header>
     <div class="header-container">
         <a id="a-title" href="{{ '/' | relative_url }}">
-            <p class="p-title">{{ site.title | default: site.github.repository_name }}</p>
+            <span class="p-title">{{ site.title | default: site.github.repository_name }}</span>
+            <span id="span-header">
+                <span class="btn span-btn" onclick="open_search_bar();return false;">🔍</span>
+                <span class="btn span-btn" onclick="open_head_nav_bar();return false;">📜</span>
+            </span>
         </a>
         <div class="header-nav">
             <p class="p-desc">{{ site.description | default: site.github.project_tagline }}</p>

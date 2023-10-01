@@ -2,6 +2,7 @@
 @import "default_colors";
 @import "toc";
 @import "search-bar";
+@import "head-nav";
 
 $body-background: $cod-grey !default;
 $body-foreground: $gallery !default;
@@ -224,6 +225,7 @@ hr {
   text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.75);
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
   margin-left: 10px;
+  //color: #90a959;
 }
 
 .btn:hover {
@@ -269,6 +271,8 @@ a {
 
 #a-title {
   text-decoration: none;
+  display: flex;
+  justify-content: space-between;
 }
 
 // 个人新增部分
@@ -299,7 +303,8 @@ a {
 .p-title {
   font-size: 30px;
   line-height: 1.5;
-  margin: 0 0 0 -40px;
+  //margin: 0 0 0 -40px;
+  margin: 0;
   font-weight: bold;
   font-family: Monaco, "Bitstream Vera Sans Mono", "Lucida Console", Terminal, monospace;
   color: $conifer;//$header;
@@ -333,12 +338,14 @@ a {
 // 侧边栏框架
 aside {
   height: 100%;
-  width: 20%;
+  //width: 20%;
+  width: 300px;
   //visibility: hidden;
   position: fixed;
   top: 0;
   //left: 0;
-  left: -20%;
+  //left: -20%;
+  left: -300px;
   box-sizing: border-box;
   //transition-property: left; 性能差，改用transform
   transition-duration: 250ms;
@@ -519,4 +526,51 @@ input {
 .footer {
   position: relative;
   height: 15%;
+}
+
+// header nav button
+//.header-button {
+//  height: 38px;
+//  width: 17%;
+//  margin: 1%;
+//  background-color: rgba(0, 0, 0, 0);
+//  border: none;
+//  z-index: 1;
+//}
+
+#span-header {
+  //display: flex;
+  display: none;
+  justify-content: center;
+  align-items: center;
+  font-size: 23px;
+  letter-spacing: 1.125rem;
+}
+
+.span-btn {
+  align-items: center;
+  //text-align: right;
+  background-color: transparent;
+  font-size: 16px;
+  padding: 5px 3px 5px 22px;
+  margin-left: 15px;
+}
+
+/*响应式布局*/
+@media (max-width:1060px) {
+  .header-nav {
+    display: none;
+  }
+
+  header {
+    padding: 52px 0px;
+  }
+
+  #span-header {
+    display: flex;
+  }
+
+  #left-side-content {
+    min-width: 430px;
+  }
 }

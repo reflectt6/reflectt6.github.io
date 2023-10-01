@@ -257,3 +257,26 @@ header {
 ul li {
     list-style-image:none;
 }
+
+/*响应式布局*/
+@media (max-width:1060px) {
+    .header-nav {
+        display: none;
+    }
+
+    header {
+        padding: 52px 0px;
+    }
+
+    body {
+        min-width: 430px;
+    }
+
+    #card-list {
+        display: none;
+    }
+
+    #span-header {
+        display: flex;
+    }
+}

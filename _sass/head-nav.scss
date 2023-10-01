@@ -1,0 +1,125 @@
+$head-nav-zindex: 3;
+
+#head-nav-background1 {
+  min-width: 350px;
+  //display: flex;
+  display: none;
+  overflow: hidden;
+  align-items: flex-start;
+  justify-content: center;
+  outline: none;
+
+  z-index: $head-nav-zindex;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+
+  margin: 0;
+  box-sizing: border-box;
+  padding: 0;
+  border-width: 0;
+  border-style: solid;
+}
+
+#head-nav-background1::-webkit-scrollbar-track {
+  background-color: #1e191a;
+}
+
+#head-nav-background1::-webkit-scrollbar-thumb {
+  border-radius: 2px;
+  background-color: rgba(0, 0, 0, .3);
+}
+
+
+#head-nav-section {
+  justify-content: center;
+  margin-top: 3.75rem;
+  margin-bottom: 3.75rem;
+  z-index: $head-nav-zindex;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 80%;
+  outline: none;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 0px 1px, rgba(0, 0, 0, 0.2) 0px 5px 10px, rgba(0, 0, 0, 0.4) 0px 15px 40px;
+  background-color: #151718;
+  color: inherit;
+
+  border-radius: 0.5rem;
+  margin-inline-start: 0.5rem;
+  margin-inline-end: 0.5rem;
+}
+
+#head-nav-close-button {
+  width: 32px;
+  height: 32px;
+  font-size: 32px;
+  position: absolute;
+  top: 1rem;
+  inset-inline-end: 1rem;
+
+  appearance: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  outline: none;
+  border-width: 0;
+  color: currentColor;
+  background-color: transparent;
+  padding: 0;
+  cursor: pointer;
+  user-select: none;
+  transition: color 250ms ease 0s, background-color 250ms ease 0s;
+
+  font-family: inherit;
+  margin: 0;
+  box-sizing: border-box;
+  border-style: solid;
+}
+
+#head-nav-text {
+  flex: 0 1 0%;
+  margin: 0;
+  box-sizing: border-box;
+  border-width: 0;
+  border-style: solid;
+  //padding: 0;
+  padding-top: 1.25rem;
+  font-size: 1.125rem;
+  padding-inline-start: 1.25rem;
+  padding-inline-end: 1.25rem;
+  font-weight: 500;
+  padding-bottom: 0.75rem;
+}
+
+#head-nav-background2 {
+  overflow: auto;
+  flex: 1 1 0%;
+  padding-inline-start: 1.25rem;
+  padding-inline-end: 1.25rem;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  box-sizing: border-box;
+  border-width: 0;
+  border-style: solid;
+}
+
+#head-nav-container {
+  word-break: break-all;
+  overflow-wrap: break-word;
+  border: 1px solid transparent;
+  border-radius: 0.25rem;
+
+  box-sizing: border-box;
+  font-size: 40px;
+  flex-direction: column;
+  align-items: center;
+  row-gap: 0.5rem;
+  width: 100%;
+  display: flex;
+  margin: 0;
+  padding: 0;
+}
