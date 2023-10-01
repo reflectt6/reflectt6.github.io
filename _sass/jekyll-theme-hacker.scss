@@ -552,8 +552,8 @@ input {
   //text-align: right;
   background-color: transparent;
   font-size: 16px;
-  padding: 5px 3px 5px 22px;
-  margin-left: 15px;
+  padding: 0px 1px 0px 20px;
+  margin-left: 3px;
 }
 
 /*响应式布局*/
@@ -571,6 +571,6 @@ input {
   }
 
   #left-side-content {
-    min-width: 430px;
+    min-width: 350px;
   }
 }
