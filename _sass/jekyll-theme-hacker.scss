@@ -572,7 +572,7 @@ input {
   }
 
   #left-side-content {
-    min-width: 350px;
+    min-width: 380px;
   }
 
   .sidebar-toggle {
@@ -586,5 +586,11 @@ input {
   #search-section {
     margin-top: 2.4rem;
     margin-bottom: 5.75rem;
+  }
+
+  .span-btn {
+    border-left-color: darkgreen;
+    border-right-color: darkgreen;
+    margin-left: 5px;
   }
 }
