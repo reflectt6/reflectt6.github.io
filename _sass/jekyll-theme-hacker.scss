@@ -436,7 +436,8 @@ aside {
 }
 .sidebar-nav {
   top: 150px;
-  bottom: 70px;
+  //bottom: 70px;
+  height: calc(100vh - 220px);
   overflow-y: scroll;
 }
 
