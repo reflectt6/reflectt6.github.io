@@ -557,6 +557,10 @@ input {
   margin-left: 3px;
 }
 
+.origin-info {
+  visibility: hidden;
+}
+
 /*响应式布局*/
 @media (max-width:1060px) {
   .header-nav {
