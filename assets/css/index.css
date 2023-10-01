@@ -270,6 +270,7 @@ ul li {
 
     body {
         min-width: 350px;
+        overflow: hidden;
     }
 
     #card-list {
@@ -278,5 +279,34 @@ ul li {
 
     #span-header {
         display: flex;
+    }
+
+    .last-circle {
+        width: 160%;
+        top: 46%;
+    }
+
+    .second-circle {
+        width: 100%;
+        top: 40%;
+    }
+
+    .center-circle {
+        top: 38%;
+    }
+
+    #search-section {
+        margin-top: 2.4rem;
+        margin-bottom: 5.75rem;
+    }
+
+    .span-btn {
+        border-left-color: darkgreen;
+        border-right-color: darkgreen;
+        margin-left: 5px;
+    }
+
+    .timeEffect {
+        overflow: hidden;
     }
 }

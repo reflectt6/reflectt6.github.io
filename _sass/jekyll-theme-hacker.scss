@@ -574,4 +574,17 @@ input {
   #left-side-content {
     min-width: 350px;
   }
+
+  .sidebar-toggle {
+    display: none;
+  }
+
+  ::-webkit-scrollbar {
+    width: 2px;
+  }
+
+  #search-section {
+    margin-top: 2.4rem;
+    margin-bottom: 5.75rem;
+  }
 }
