@@ -6,6 +6,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="{{ '/assets/css/style.css?v=' | append: site.github.build_revision | relative_url }}">
     {% include head-custom.html %}
+    <script src="/assets/js/jquery-3.7.1.min.js"></script>
+    <script src="/assets/js/jquery.toc.js"></script>
+    <script src="/assets/js/jquery.blog.js"></script>
+    <script src="/assets/js/jquery.search.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $('.header-container').toc({
+                showAlways: true,
+                renderIn: '.sidebar-nav',
+                contentsText: "[Tab] 章节目录",
+                hideText: '收起',
+                showText: '展开',
+                showCollapsed: false
+            });
+        });
+    </script>
     {% seo %}
 </head>
 
@@ -17,20 +33,6 @@
         {% include header.html %}
         <div class="header-container">
             <section id="main_content">
-                <script src="/assets/js/jquery-3.7.1.min.js"></script>
-                <script src="/assets/js/jquery.toc.js"></script>
-                <script type="text/javascript">
-                    $(function () {
-                        $('.header-container').toc({
-                            showAlways: true,
-                            renderIn: '.sidebar-nav',
-                            contentsText: "[Tab] 章节目录",
-                            hideText: '收起',
-                            showText: '展开',
-                            showCollapsed: false
-                        });
-                    });
-                </script>
                 {{ content }}
             </section>
         </div>

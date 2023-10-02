@@ -3,24 +3,6 @@ layout: page-with-sidebar
 title: Blog
 permalink: /blog/
 ---
-<head>
-    <script src="/assets/js/jquery-3.7.1.min.js"></script>
-    <script src="/assets/js/jquery.blog.js"></script>
-    <script src="/assets/js/jquery.toc.js"></script>
-    <script type="text/javascript">
-        $(function () {
-            $('.header-container').toc({
-                showAlways: true,
-                renderIn: '.sidebar-nav',
-                contentsText: "[Tab] 章节目录",
-                hideText: '收起',
-                showText: '展开',
-                showCollapsed: false
-            });
-        });
-    </script>
-</head>
-<!--<p>临时目录(前端太难了，先凑乎用吧😓)</p>-->
 <div id="catalogue-div">
     <ul id="catalogue-ul">
         {% for post in site.posts %}

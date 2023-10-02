@@ -5,6 +5,9 @@
 // 在此处执行希望在页面加载完成后执行的操作
 $(document).ready(function () {
     var $ul = $("#catalogue-ul");
+    if ($ul.length === 0) {
+        return
+    }
     var $li = $ul.children("li");
     var mainTagList = [];
 

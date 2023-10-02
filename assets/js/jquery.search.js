@@ -8,7 +8,6 @@ var titles = []
 var links = []
 var contents = []
 var categories = []
-var isBind = false
 $.get("/feed.xml", function (data) {
     blogs = $(data).find("entry")
     for (let i = 0; i < blogs.length; i++) {
@@ -28,9 +27,13 @@ function washContent(text) {
 
 function open_search_bar() {
     var $sb = $("#search-background1")
+    if ($sb.length === 0) {
+        return
+    }
     $sb.css("display", "flex")
     var $si = $('#search-input')
-    if (!isBind) {
+    var $body = $("body")
+    if (!$body.data("esc_search_bar_shortcut")) {
         $si.on('input', function () {
             start_search()
         })
@@ -38,9 +41,10 @@ function open_search_bar() {
         $sb.on("keyup", function (e) {
             if (e.keyCode === 27) {
                 close_search_bar()
+
             }
         });
-        isBind = true
+        $body.data("esc_search_bar_shortcut", true)
     }
     $sb.on("click", other_method_close_search_bar)
     $si.focus()
@@ -48,6 +52,9 @@ function open_search_bar() {
 
 function close_search_bar() {
     var $sb = $("#search-background1")
+    if ($sb.length === 0) {
+        return
+    }
     $sb.css("display", "none")
     $sb.off("click")
 }
@@ -91,10 +98,15 @@ function mouse_out(event) {
 
 
 function start_search() {
-    if ($('#search-input').val() === '' || $('#search-input').val().search(/^\s+$/) >= 0) {
+    var $si = $('#search-input')
+    if ($si.length === 0) {
+        return
+    }
+    if ($si.val() === '' || $si.val().search(/^\s+$/) >= 0) {
         // 输入空白的情况,提示暂无结果
-        $('#search-results').empty()
-        $('#search-results').append($("<div id=\"empty-result\">暂无结果</div>"));
+        var $sr = $('#search-results')
+        $sr.empty()
+        $sr.append($("<div id=\"empty-result\">暂无结果</div>"));
     } else {
         // 在标题、内容中查找
         jquery_search_action(titles, contents, $('#search-input').val());

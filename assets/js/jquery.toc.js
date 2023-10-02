@@ -208,6 +208,9 @@ function startComputeToc() {
 
 function sidebar_toggle() {
     var $st = $(".sidebar-toggle")
+    if ($st.length === 0) {
+        return
+    }
     if ($st.css("z-index") === "2") {
         $("aside").css("transform","translateX(0)")
         var lsc = $("#left-side-content")
