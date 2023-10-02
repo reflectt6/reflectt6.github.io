@@ -195,15 +195,18 @@ function active(event) {
 })(jQuery);
 
 function startComputeToc() {
-    $('.header-container').toc({
+    var $main_content = $("#main_content")
+    if ($main_content.length === 0) {
+        return
+    }
+    $main_content.toc({
         showAlways: true,
         renderIn: '.sidebar-nav',
-        contentsText: "章节目录",
+        contentsText: "[tab] 章节目录",
         hideText: '收起',
         showText: '展开',
         showCollapsed: false
     })
-    return this;
 }
 
 function sidebar_toggle() {
@@ -245,5 +248,8 @@ $(document).ready(function () {
         });
         $body.data("tab-shortcut", true)
     }
+
+    // 生成toc
+    startComputeToc()
 })
 
