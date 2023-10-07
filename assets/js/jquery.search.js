@@ -7,22 +7,29 @@ var blogs = []
 var titles = []
 var links = []
 var contents = []
-var categories = []
+var mainTag = []
+var secondaryTag = []
 $.get("/feed.xml", function (data) {
-    blogs = $(data).find("entry")
+    blogs = $(data).find("item")
     for (let i = 0; i < blogs.length; i++) {
-        titles.push($(blogs[i]).find("title").text())
-        links.push($(blogs[i]).find("link").attr("href"))
+        titles.push(washTag($(blogs[i]).find("title").text()))
+        links.push(washTag($(blogs[i]).find("link").text()))
         var content = $(blogs[i]).find("content").text()
         var cleanContent = washContent(content)
         contents.push(cleanContent)
-        categories.push($(blogs[i]).find("category").attr("term"))
+        mainTag.push(washTag($(blogs[i]).find("mainTag").text()))
+        secondaryTag.push(washTag($(blogs[i]).find("secondaryTag").text()))
     }
 })
 
 function washContent(text) {
     // 非贪婪模式匹配
     return text.replaceAll(/<.*?>/g, "").replaceAll("\n", " ")
+}
+
+function washTag(text) {
+    // 非贪婪模式匹配
+    return text.replaceAll(/<.*?>/g, "").replaceAll("\n", " ").replaceAll(" ", "")
 }
 
 function open_search_bar() {
@@ -137,9 +144,16 @@ function jquery_search_action(titles, contents, input) {
             rst.text(titles[i])
         }
         rpt.append(rst)
-        var rsTag = $('<span class="result-span-tag">')
-        rsTag.text(categories[i])
-        rpt.append(rsTag)
+        if (mainTag[i] !== "") {
+            var rsTag = $('<span class="result-span-tag">')
+            rsTag.text(mainTag[i])
+            rpt.append(rsTag)
+        }
+        if (secondaryTag[i] !== "") {
+            var rsTag2 = $('<span class="result-span-tag">')
+            rsTag2.text(secondaryTag[i])
+            rpt.append(rsTag2)
+        }
         rd.append(rpt)
         var result_excerpt = $("<p class='result-excerpt'></p>")
         if (content_index !== -1) {
