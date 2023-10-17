@@ -13,17 +13,40 @@ function active(event) {
     $li[0].innerHTML = "✅ " + $li[0].innerHTML
 }
 
-(function($) {
+function indexToggle(event) {
+    var $a = $(event)
+    var klass = $a.attr("class")
+    if (klass === "hideBrotherUl") {
+        $a.html("-")
+        $a.attr("class", "showBrotherUl")
+        $a.parent().next().css("display", "")
+    } else {
+        $a.html("+")
+        $a.attr("class", "hideBrotherUl")
+        $a.parent().next().css("display", "none")
+    }
+}
+
+(function ($) {
     var toggleHTML = '<div id="toctitle"><h2>%1</h2> <span class="toctoggle">[<a id="toctogglelink" class="internal" href="#">%2</a>]</span></div>';
     var tocContainerHTML = '<div id="toc-container"><table class="toc" id="toc"><tbody><tr><td>%1<ul>%2</ul></td></tr></tbody></table></div>';
 
-    function createLevelHTML(anchorId, tocLevel, tocSection, tocNumber, tocText, tocInner) {
+    function createLevelHTML(anchorId, tocLevel, tocSection, tocNumber, tocText, tocInner, level) {
         // var link = '<a href="#%1"><span class="tocnumber">%2</span> <span class="toctext">%3</span></a>%4'
-        var link = '<a class="toctext" href="#%1" onclick="active(this)">%2 %3</a>%4'
+        // var link = '<a class="toctext" href="#%1" %5>%2 %3</a>%6%4'
+        var link = '<a class="toctext" href="#%1" onclick="active(this)">%2 %3</a>%6%4'
             .replace('%1', anchorId)
             .replace('%2', tocNumber)
             .replace('%3', tocText)
-            .replace('%4', tocInner ? tocInner : '');
+            .replace('%4', tocInner ? tocInner : '')
+            // 只有最低级的索引并且不是第一级索引才 启用active()方法，也就是点击之后在前面显示✅的效果
+            // .replace('%5', tocInner || level === 1 ? '' : 'onclick="active(this)"')
+        if (tocInner) {
+            link = link.replace('%6', '<span> [<a style="cursor: pointer" class="hideBrotherUl" onclick="indexToggle(this)">+</a>]</span>')
+        } else {
+            link = link.replace('%6', '')
+        }
+
         return '<li class="toclevel-%1 tocsection-%2">%3</li>\n'
             .replace('%1', tocLevel)
             .replace('%2', tocSection)
@@ -38,7 +61,7 @@ function active(event) {
         }
     }
 
-    $.fn.toc = function(settings) {
+    $.fn.toc = function (settings) {
         var config = {
             renderIn: 'self',
             anchorPrefix: 'tocAnchor-',
@@ -48,7 +71,8 @@ function active(event) {
             contentsText: 'Contents',
             hideText: 'hide',
             showText: 'show',
-            showCollapsed: false};
+            showCollapsed: false
+        };
 
         if (settings) {
             $.extend(config, settings);
@@ -66,7 +90,7 @@ function active(event) {
         var secondHead = heads[1];
         var thirdHead = heads[2];
 
-        tocContainer.find(firstHead).each(function() {
+        tocContainer.find(firstHead).each(function () {
             var secondLevelHTML = '';
             var secondSection = 0; // 表示这是第几个二级索引
             var level1 = $(this);
@@ -77,7 +101,7 @@ function active(event) {
             if (searchSec.length === 0) {
                 searchSec = level1.nextUntil(firstHead).find(secondHead)
             }
-            searchSec.each(function() {
+            searchSec.each(function () {
                 var thirdLevelHTML = '';
                 var thirdSection = 0;
                 var level2 = $(this);
@@ -101,11 +125,13 @@ function active(event) {
                         curTocLevel,
                         totalSection,
                         firstSection + '.' + secondSection + '.' + thirdSection,
-                        level3.text())
+                        level3.text(),
+                        '',
+                        3)
                 })
 
                 if (thirdLevelHTML) {
-                    thirdLevelHTML = '<ul>' + thirdLevelHTML + '</ul>\n';
+                    thirdLevelHTML = '<ul style="display: none">' + thirdLevelHTML + '</ul>\n';
                 }
                 var curTocLevel = tocLevel + 1;
                 var anchorId = config.anchorPrefix
@@ -116,10 +142,11 @@ function active(event) {
                     totalSection,
                     firstSection + '.' + secondSection,
                     level2.text(),
-                    thirdLevelHTML);
+                    thirdLevelHTML,
+                    2);
             });
             if (secondLevelHTML) {
-                secondLevelHTML = '<ul>' + secondLevelHTML + '</ul>\n';
+                secondLevelHTML = '<ul style="display: none">' + secondLevelHTML + '</ul>\n';
             }
             var anchorId = config.anchorPrefix + firstSection;
             level1.attr('id', anchorId);
@@ -128,7 +155,8 @@ function active(event) {
                 totalSection,
                 firstSection,
                 level1.text(),
-                secondLevelHTML);
+                secondLevelHTML,
+                1);
         });
 
         // for convenience itemNumber starts from 1
@@ -138,7 +166,7 @@ function active(event) {
         var show = config.showAlways ? true : config.minItemsToShowToc <= tocIndexCount;
 
         // check if cookie plugin is present otherwise doesn't try to save
-        if (config.saveShowStatus && typeof($.cookie) == "undefined") {
+        if (config.saveShowStatus && typeof ($.cookie) == "undefined") {
             config.saveShowStatus = false;
         }
 
@@ -152,26 +180,26 @@ function active(event) {
 
             // Renders in default or specificed path
             if (config.renderIn != 'self') {
-              $(config.renderIn).html(replacedTocContainer);
+                $(config.renderIn).html(replacedTocContainer);
             } else {
-              tocContainer.prepend(replacedTocContainer);
+                tocContainer.prepend(replacedTocContainer);
             }
 
-            $('#toctogglelink').click(function() {
+            $('#toctogglelink').click(function () {
                 var ul = $($('#toc ul')[0]);
 
                 if (ul.is(':visible')) {
                     ul.hide();
                     $(this).text(config.showText);
                     if (config.saveShowStatus) {
-                        $.cookie('toc-hide', '1', { expires: 365, path: '/' });
+                        $.cookie('toc-hide', '1', {expires: 365, path: '/'});
                     }
                     $('#toc').addClass('tochidden');
                 } else {
                     ul.show();
                     $(this).text(config.hideText);
                     if (config.saveShowStatus) {
-                        $.removeCookie('toc-hide', { path: '/' });
+                        $.removeCookie('toc-hide', {path: '/'});
                     }
                     $('#toc').removeClass('tochidden');
                 }
@@ -203,8 +231,8 @@ function startComputeToc() {
         showAlways: true,
         renderIn: '.sidebar-nav',
         contentsText: "[tab] 章节目录",
-        hideText: '收起',
-        showText: '展开',
+        hideText: '-',
+        showText: '+',
         showCollapsed: false
     })
 }
@@ -215,12 +243,12 @@ function sidebar_toggle() {
         return
     }
     if ($st.css("z-index") === "2") {
-        $("aside").css("transform","translateX(0)")
+        $("aside").css("transform", "translateX(0)")
         var lsc = $("#left-side-content")
         lsc.css("left", "0%")
         $st.css("z-index", "1")
     } else {
-        $("aside").css("transform","translateX(100%)")
+        $("aside").css("transform", "translateX(100%)")
         var lsc = $("#left-side-content")
         // lsc.css("left", "20%")
         lsc.css("left", "300px")
@@ -232,7 +260,7 @@ $(document).ready(function () {
     var $body = $("body")
     // 不知道为啥文档就绪事件会触发两次，通过data标志位，判断事件是否已经被监听，防止多次监听事件带来的方法多次执行问题
     // https://blog.51cto.com/u_16175504/7284150
-    if(!$body.data("tab-shortcut")) {
+    if (!$body.data("tab-shortcut")) {
         $body.on("keyup", function (e) {
             // Tab 切换侧边栏
             if (e.which === 9) {
@@ -240,7 +268,7 @@ $(document).ready(function () {
             }
         })
         // 移除浏览器默认的tab操作
-        $body.on('keydown', function(e){
+        $body.on('keydown', function (e) {
             var keyCode = e.keyCode || e.which;
             if (keyCode === 9) {
                 e.preventDefault();
