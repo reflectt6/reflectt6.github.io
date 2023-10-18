@@ -98,3 +98,13 @@
     font-size: 18px;
     text-align: center;
 }
+
+
+// 下面两条用于解决： 切换active索引状态时 前置的✅会把原来的索引文本顶到右边的问题
+a.toctext {
+    padding-inline-start: 25.5px;
+}
+
+#active {
+    padding-inline-start: 0;
+}
