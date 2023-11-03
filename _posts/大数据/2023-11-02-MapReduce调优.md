@@ -28,7 +28,106 @@ hbase pe --nomapred --oneCon=true --table=Tab_1000G_write_48 --size=1000 --value
 - --valueSize设置的是行间的大小，这里的48就是说一个行键为48个字符。这个值也会直接影响最终生成的表大小，我试过设置为8，也是生成1000G，最终生成的表只有15G左右。原因可能在于8字符比48字符压缩更彻底。
 - --columns设置列的数量，列族只有一个叫做“info0”，这里设置的数量为info0中的列的数量，如果设为3，则有“info0:0”，“info0:1”，“info0:2”
 
-## 策略
+## 观察MapReduce日志
+
+```shell
+# 查看有哪些mr任务
+yarn application -list -appStates All
+
+# 根据任务id获取任务日志
+yarn logs -applicationId [applicationId]
+```
+
+
+
+## MapReduce自动监测脚本
+
+数据量上去，mapreduce任务很慢，总不能一直守着电脑看，这里给一个自动监测脚本的demo
+
+设置定时任务，用到crontab这个命令
+
+```shell
+# 打开文本编辑 设置定时任务
+crontab -e
+
+# 格式如下
+
+* * * * * 等待执行的脚本
+格式如下 minute hour day month week command，也就是最多支持到每分钟执行 一次。其中：
+minute： 表示分钟，可以是从0到59之间的任何整数。
+hour：表示小时，可以是从0到23之间的任何整数。
+day：表示日期，可以是从1到31之间的任何整数。
+month：表示月份，可以是从1到12之间的任何整数。
+week：表示星期几，可以是从0到7之间的任何整数，这里的0或7代表星期日。
+command：要执行的命令，可以是系统命令，也可以是自己编写的脚本文件。
+举例：
+1、在 凌晨00:01运行
+1 0 * * * /home/linrui/XXXX.sh
+
+2、每个工作日23:59都进行备份作业。
+59 11 * * 1,2,3,4,5 /home/linrui/XXXX.sh   
+或者如下写法：
+59 11 * * 1-5 /home/linrui/XXXX.sh
+
+3、每分钟运行一次命令
+*/1 * * * * /home/linrui/XXXX.sh
+
+4、每个月的1号 14:10 运行
+10 14 1 * * /home/linrui/XXXX.sh
+
+# 定时任务的日志可以在
+/var/log/cron中查看
+```
+
+crontab的弊端：
+
+```shell
+# crontab运行自定义脚本时，可能是由于没有一些初始化的环境变量，导致很多命令执行不了，例如下面的就执行不了：
+pids=`jps |grep YarnChild | awk '{print $1}'`
+# 没搞清楚是为啥执行不了，猜是由于没有环境变量，找不到jps或者其他原因，有个比较坑的地方，就是他没有报错信息，你也不知道执行没有
+# 可以通过/var/log/cron查看，确实是执行了，但是没有输出。。命令执行失败了没有报错。。
+```
+
+于是换个定时思路，写个cron.sh，死循环，每次执行完采集脚本之后，sleep 10min。这不是完美解决！
+
+```shell
+while [ 1 ]
+do
+	./collect.sh
+	sleep 10m
+done
+```
+
+下面是采集脚本 collect.sh
+
+```shell
+DATE=$(date +%Y-%m-%d-%H-%M-%s)
+# 拿到YarnChild的id集合
+pids=`jps |grep YarnChild | awk '{print $1}'`
+mkdir $DATE
+for pid in $(pid[@])
+do
+	jmap -heap $pid >> $DATE/heap
+	jmap -histo $pid >> $DATE/histo
+	jstack $pid >> $DATE/stack
+	jstat -gc $pid >> $DATE/gc
+	jinfo -flags $pid >> $DATE/flags
+	
+	# break 跳出循环，这里的意思是只采集一个YarnChild，因为map任务的配置，运行情况都差不多，只选一个就可以了
+	break
+done
+```
+
+给权限+后台运行定时脚本
+
+```shell
+chmod +x *sh
+bash cron.sh &
+```
+
+每汁汁，下班！
+
+## 调优策略
 
 1、充分利用集群资源
 
@@ -40,11 +139,9 @@ hbase pe --nomapred --oneCon=true --table=Tab_1000G_write_48 --size=1000 --value
 mapreduce.{map|reduce}.memory.mb
 ```
 
-2、业务代码分批处理
+2、根据mapreduce特点，优化业务代码的实现逻辑
 
-由于业务原因本次reduce只设置了一个，在1T的数据量下，reduce数远小于map数量，这其实是不合理的。
-
-所有的mapper的输入的key都是NullWritable，这样在reduce端，他接收的values会非常大，而我有用一个list存储了这个value的clone，由此导致了堆溢出，这里改进方式是，不要一下把values都存进List，我存储一部分，就合并一下，这样可以防止list内存爆炸。
+TODO
 
 
 
