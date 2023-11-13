@@ -1,0 +1,234 @@
+---
+layout: page-with-sidebar
+title:  "LC307-树状数组"
+date:   2023-11-13 12:08:03 +0800
+author: reflectt6
+categories: 
+mainTag: "算法"
+secondaryTag: "Middle"
+---
+
+## [307. 区域和检索 - 数组可修改](https://leetcode.cn/problems/range-sum-query-mutable/)
+
+给你一个数组 `nums` ，请你完成两类查询。
+
+1. 其中一类查询要求 **更新** 数组 `nums` 下标对应的值
+2. 另一类查询要求返回数组 `nums` 中索引 `left` 和索引 `right` 之间（ **包含** ）的nums元素的 **和** ，其中 `left <= right`
+
+实现 `NumArray` 类：
+
+- `NumArray(int[] nums)` 用整数数组 `nums` 初始化对象
+- `void update(int index, int val)` 将 `nums[index]` 的值 **更新** 为 `val`
+- `int sumRange(int left, int right)` 返回数组 `nums` 中索引 `left` 和索引 `right` 之间（ **包含** ）的nums元素的 **和** （即，`nums[left] + nums[left + 1], ..., nums[right]`）
+
+
+
+## 法一 简单无脑
+
+最简单的方法，相信所有人都会先想到这样搞
+
+```java
+class NumArray {
+        int[] nums;
+            public NumArray(int[] nums) {
+                this.nums = nums;
+            }
+
+            public void update(int index, int val) {
+                nums[index] = val;
+            }
+
+            public int sumRange(int left, int right) {
+                int sum = 0;
+                for (int i = left; i <= right; i++) {
+                    sum += nums[i];
+                }
+                return sum;
+            }
+}
+```
+
+居然能过，但是这个解法肯定不是出题人想考的
+
+## 法二 前缀和
+
+我想了一下可以用 `前缀和`化简查询的效率，但是也要牺牲插入的效率，试了一下提升还是挺大的
+
+```java
+class NumArray {
+    int[] nums;
+    int[] increment;
+    public NumArray(int[] nums) {
+        this.nums = nums;
+        this.increment = new int[nums.length];
+        increment[0] = nums[0];
+        for (int i = 1; i < nums.length; i++) {
+            increment[i] = increment[i-1] + nums[i];
+        }
+    }
+
+    public void update(int index, int val) {
+        int gap = val - nums[index];
+        nums[index] = val;
+        for (int i = index; i < nums.length; i++) {
+            increment[i] += gap;
+        }
+    }
+
+    public int sumRange(int left, int right) {
+        return increment[right] - increment[left] + nums[left];
+    }
+}
+```
+
+## 官解 树状数组
+
+看了官解，上面两种都不是官解推荐的，其实官解有三种，第一种分组处理我也想到了，其实就是给前缀和分个组，让插入的性能再提升点，这当然会减少读性能，但算法就是有失有得，很多时候我们只能找到更适合的算法，而不是更高明的算法。第二种线段树，第三种树状数组，其实也就是这个思路。
+
+由于时间精力有限，这里我只研究 `树状数组`
+
+```java
+class NumArray {
+    private int[] tree;
+    private int[] nums;
+
+    public NumArray(int[] nums) {
+        this.tree = new int[nums.length + 1];
+        this.nums = nums;
+        for (int i = 0; i < nums.length; i++) {
+            add(i + 1, nums[i]);
+        }
+    }
+
+    public void update(int index, int val) {
+        add(index + 1, val - nums[index]);
+        nums[index] = val;
+    }
+
+    public int sumRange(int left, int right) {
+        return prefixSum(right + 1) - prefixSum(left);
+    }
+
+    private int lowBit(int x) {
+        return x & -x;
+    }
+
+    private void add(int index, int val) {
+        while (index < tree.length) {
+            tree[index] += val;
+            index += lowBit(index);
+        }
+    }
+
+    private int prefixSum(int index) {
+        int sum = 0;
+        while (index > 0) {
+            sum += tree[index];
+            index -= lowBit(index);
+        }
+        return sum;
+    }
+}
+```
+
+先看下三种解法的性能差异
+
+![image-20231113152624257](/assets/images/2023-11-13-LC307-树状数组//image-20231113152624257.png)
+
+可以看到我的两种方法遥遥落后！虽然如此，但是不必灰心，其实树状数组就是前缀和+分组，这两个优化点我都想到了。树状数组的核心难点在于如何分组，它不光分组了，还是一个树状结构的分组，用到了一种名为[LowBit](https://blog.csdn.net/weixin_45771864/article/details/115162596)的算法。这个名字不是说这个算法很Low的意思，它的意思是找到传入参数的二进制表示的最低位1所代表的数字（二进制表示就是机器码表示，例如一个负数，他的机器码是他的补码，也就是他对应的正数按位取反再加一），这个解释比较绕，不是我说的绕，他本身的含义就是这样，建议结合资料理解。
+
+代码就一行
+
+```java
+private int lowBit(int x) {
+    return x & -x;
+}
+```
+
+知乎上看到一段话，说的很好
+
+`简单来说，树状数组就是利用lowbit的性质，把n个节点串起来，隐式地构造一棵树（当n不是2幂次时，是一个森林）。每个节点x的父亲是x + lowbit(x)，每个节点维护其子节点的和。`
+
+如果能理解这段话，那么官解代码应该就看得懂了。这里面有一些细节需要注意。比如`隐式`。它是一个数组，但却存储了一个树形结构，我这边放个csdn大佬的图方便理解。
+
+![image-20231113163532457](/assets/images/2023-11-13-LC307-树状数组//image-20231113163532457.png)
+
+看下初始化函数，为什么是`add(i + 1, nums[i])`？
+
+```java
+public NumArray(int[] nums) {
+        this.tree = new int[nums.length + 1];
+        this.nums = nums;
+        for (int i = 0; i < nums.length; i++) {
+            add(i + 1, nums[i]);
+        }
+    }
+```
+
+ 因为插入的i的位置，插入的前缀和由i的父节点维护，所以我们去更新父节点的值。为什么不更新i节点，因为我们维护的前缀和是一个前闭后开的区间，例如tree[5]，存的是[0, 5)的前缀和，不包括5。
+
+再看下add函数
+
+```java
+private void add(int index, int val) {
+        while (index < tree.length) {
+            tree[index] += val;
+            index += lowBit(index);
+        }
+    }
+```
+
+我们不光要增加一个父节点，还要增加父节点的父节点，父节点的父节点的父节点。。
+
+看下update，为什么是 `val - nums[index]`？
+
+```java
+public void update(int index, int val) {
+        add(index + 1, val - nums[index]);
+        nums[index] = val;
+    }
+```
+
+父节点管理所有子节点的前缀和，我们要修改i的值，那么就需要计算这个修改增加了多少(`val-nums[index]`)，然后更新给i的所有父节点(`index+1`)。
+
+这就是最难理解的插入操作了。读操作要好理解很多。
+
+比如读取区间和[x,y]，可以通过[0, y +1) - [0, x)来得到，也就是tree[y+1] - tree[x]
+
+最后来看下prefixSum
+
+```java
+private int prefixSum(int index) {
+        int sum = 0;
+        while (index > 0) {
+            sum += tree[index];
+            index -= lowBit(index);
+        }
+        return sum;
+    }
+```
+
+分析一下 `index -= lowBit(index)`
+
+如果存在index的节点，这里第二轮的时候直接index等于零了，最后结果就是第一轮index节点中值（tree[index]）。
+
+如果不存在index的节点， `index -= lowBit(index)`就会遍历index（虽然他不存在，但它可以通过多个存在的节点的值组合而成，这就是lowbit的牛逼之处）的亲儿子节点，这些节点相加就是要求的值了。
+
+## 参考资料
+
+首先要理解lowbit做了什么，其次看看[csdn](https://blog.csdn.net/TheWayForDream/article/details/118436732)。最后结合知乎上的这段话理解
+
+`简单来说，树状数组就是利用lowbit的性质，把n个节点串起来，隐式地构造一棵树（当n不是2幂次时，是一个森林）。每个节点x的父亲是x + lowbit(x)，每个节点维护其子节点的和。`
+
+`x -= lowbit(x)`。当x节点存在，下一次x等于零，直接拿到tree[x]即可。当x节点不存在, 这个式子会遍历他的亲儿子节点，亲儿子节点相加也就是x的值，虽然他不存在，但是可以这样算出来。
+
+这就是lowbit的牛逼之处。
+
+[lowbit](https://blog.csdn.net/weixin_45771864/article/details/115162596)
+
+[知乎1](https://zhuanlan.zhihu.com/p/546893960)
+
+[知乎2](https://zhuanlan.zhihu.com/p/93795692)
+
+[csdn](https://blog.csdn.net/TheWayForDream/article/details/118436732)
+
