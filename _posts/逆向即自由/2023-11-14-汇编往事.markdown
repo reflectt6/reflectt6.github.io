@@ -1,0 +1,60 @@
+---
+layout: page-without-sidebar
+title:  "汇编往事"
+date:   2023-11-14 17:08:03 +0800
+author: reflectt6
+categories: "汇编往事"
+mainTag: "逆向即自由"
+secondaryTag: "汇编"
+---
+## 汇编往事
+
+质疑汇编，理解汇编，学习汇编
+
+[汇编指令手册](https://www.felixcloutier.com/x86/index.html)
+
+## SIMD
+
+SIMD（Single Instruction Multiple Data）单指令处理多数据。区别于SISD（Single Instruction Single Data）。
+
+[知乎扫盲帖](https://zhuanlan.zhihu.com/p/556131141)
+
+[51扫盲帖](https://www.51cto.com/article/758085.html)
+
+发现个有趣的例子，movups在逆向中常见，知乎帖对此做了详细介绍
+
+```c++
+    float a[4] = { 1,2,3,4 };
+    float b[4] = { 5,6,7,8 };
+    float res[4];
+
+    __asm 
+    {
+        movups xmm0, [a];     // 将a所指内存的128位数据放入xmm0寄存器
+        movups xmm1, [b];     // 将b所指内存的128位数据放入xmm0寄存器
+        mulps xmm0, xmm1;     // 计算 xmm0 * xmm1，结果放入 xmm0
+        movups [res], xmm0;   // 将xmm0的数据放入res所指内存
+    }
+```
+
+```
+movups:
+mov，表示数据移动，操作双方可以是内存也可以是寄存器。
+u，表示 unaligned，内存未对齐。如果是a，表示 aligned，内存已对齐。
+p，表示 packed，打包数据，会对128位所有数据执行操作。如果是s，则表示 scalar，标量数据，仅对128位内第一个数执行操作。
+s，表示 single precision floating point，将数据视为32位单精度浮点数，一组4个。如果是d，表示 double precision floating point，将数据视为64位双精度浮点，一组两个。
+```
+
+SIMD就是我同时把float数组中的四个数一起计算了
+
+![image-20231115105816310](/assets/images/2023-11-14-汇编往事//image-20231115105816310.png)
+
+什么是对齐？[csdn扫盲帖](https://blog.csdn.net/audi2/article/details/39103733)
+
+`举例说明，某个int类型的对象，要求其存储地址的特征是4的整倍数。例如0x0000CC04。我们把地址值0x0000CC04除以4，余数0，那么这个对象的地址就是对齐的。`
+
+为什么要对齐？
+
+`举例说明，对于int数据，硬件只能在4的倍数的地址读写，假设某int对象的地址是0x0000CC06，则硬件先读取0x0000CC04开始的4个字节，
+取其0x0000CC06, 0x0000CC07。硬件然后读取0x0000CC08开始的4个字节，取其0x0000CC08, 0x0000CC09。将两次读取的有用信息拼接即可。
+显然，效率不高。更严重的，硬件会报错，程序执行不下去.`
