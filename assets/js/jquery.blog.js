@@ -46,8 +46,8 @@ $(document).ready(function () {
                     matchedMainTags[0].secondaryTags.push(newST2);
                 }
             } else if (matchedSecondaryTags.length === 1) {
-                // matchedSecondaryTags[0].blogs.push(new Blogs(url, title, mainTag, secondaryTag))
-                matchedSecondaryTags[0].blogs.unshift(new Blogs(url, title, mainTag, secondaryTag))
+                matchedSecondaryTags[0].blogs.push(new Blogs(url, title, mainTag, secondaryTag))
+                // matchedSecondaryTags[0].blogs.unshift(new Blogs(url, title, mainTag, secondaryTag))
             } else {
                 alert("error")
             }
