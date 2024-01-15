@@ -3,7 +3,7 @@ layout: page-without-sidebar
 title:  "汇编往事"
 date:   2023-11-14 17:08:03 +0800
 author: reflectt6
-categories: "汇编往事"
+categories: "逆向即自由"
 mainTag: "逆向即自由"
 secondaryTag: "汇编"
 ---
