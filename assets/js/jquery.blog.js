@@ -8,8 +8,10 @@ $(document).ready(function () {
     if ($ul.length === 0) {
         return
     }
+    var isHide = window.location.href.endsWith('/hide/')
     var $li = $ul.children("li");
     var mainTagList = [];
+    var blog_count = 0;
 
     // 将所有blog按二级索引分类，存入mainTagList中
     $li.each(function (index, element) {
@@ -18,6 +20,12 @@ $(document).ready(function () {
         var title = p[1].innerHTML
         var mainTag = p[2].innerHTML
         var secondaryTag = p[3].innerHTML
+        var hideTag = p[4].innerHTML
+        if ((isHide && hideTag === 'false') ||
+            (!isHide && hideTag === 'true')) {
+            return true
+        }
+        blog_count++;
         var matchedMainTags = $.grep(mainTagList, function (mt) {
             return mt.mTag === mainTag
         })
@@ -77,6 +85,7 @@ $(document).ready(function () {
         $ul.append($("<br>"))
         $ul.append($("<br>"))
     })
+    alert(`共找到${blog_count}篇博客\nll -R _posts |grep "\\.m" |wc -l`)
 });
 
 function MainTag(mTag) {

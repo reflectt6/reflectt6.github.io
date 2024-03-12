@@ -7,6 +7,7 @@ categories: about
 permalink: /about/
 mainTag: "朝花夕拾"
 secondaryTag: ""
+hideTag: false
 ---
 时间一天一天过去，生活好似一尘不变。
 
