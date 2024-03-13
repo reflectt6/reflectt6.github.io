@@ -9,9 +9,19 @@ var links = []
 var contents = []
 var mainTag = []
 var secondaryTag = []
+var showHide = window.location.href.endsWith('/hide/')
+var usedBlogs = 0
+
 $.get("/feed.xml", function (data) {
     blogs = $(data).find("item")
     for (let i = 0; i < blogs.length; i++) {
+        // 隐藏部分搜索内容
+        var hideTag = washTag($(blogs[i]).find("hideTag").text())
+        if ((showHide && hideTag === 'false') ||
+            (!showHide && hideTag === 'true')) {
+            continue
+        }
+
         titles.push(washTag($(blogs[i]).find("title").text()))
         links.push(washTag($(blogs[i]).find("link").text()))
         var content = $(blogs[i]).find("content").text()
@@ -19,6 +29,7 @@ $.get("/feed.xml", function (data) {
         contents.push(cleanContent)
         mainTag.push(washTag($(blogs[i]).find("mainTag").text()))
         secondaryTag.push(washTag($(blogs[i]).find("secondaryTag").text()))
+        usedBlogs++
     }
 })
 
@@ -78,7 +89,7 @@ $(document).ready(function () {
     // 不知道为啥文档就绪事件会触发两次，通过data标志位，判断事件是否已经被监听，防止多次监听事件带来的方法多次执行问题
     // https://blog.51cto.com/u_16175504/7284150
     var $body = $("body")
-    if(!$body.data("search-shortcut")) {
+    if (!$body.data("search-shortcut")) {
         $body.on("keydown", function (e) {
             // ctrl + k 打开搜索
             if (e.ctrlKey && e.which === 75) {
@@ -125,7 +136,7 @@ function jquery_search_action(titles, contents, input) {
     // 忽略输入大小写
     inputReg = new RegExp(input, 'i');
     // 在所有文章标题、内容中匹配查询值
-    for (i = 0; i < blogs.length; i++) {
+    for (i = 0; i < usedBlogs; i++) {
 
         title_index = titles[i].search(inputReg)
         content_index = contents[i].search(inputReg)

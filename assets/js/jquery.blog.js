@@ -8,7 +8,7 @@ $(document).ready(function () {
     if ($ul.length === 0) {
         return
     }
-    var isHide = window.location.href.endsWith('/hide/')
+    var showHide = window.location.href.endsWith('/hide/')
     var $li = $ul.children("li");
     var mainTagList = [];
     var blog_count = 0;
@@ -21,8 +21,8 @@ $(document).ready(function () {
         var mainTag = p[2].innerHTML
         var secondaryTag = p[3].innerHTML
         var hideTag = p[4].innerHTML
-        if ((isHide && hideTag === 'false') ||
-            (!isHide && hideTag === 'true')) {
+        if ((showHide && hideTag === 'false') ||
+            (!showHide && hideTag === 'true')) {
             return true
         }
         blog_count++;

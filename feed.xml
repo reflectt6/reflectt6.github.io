@@ -22,6 +22,9 @@ layout: null
       <secondaryTag>
         {{ post.secondaryTag }}
       </secondaryTag>
+      <hideTag>
+        {{ post.hideTag }}
+      </hideTag>
       <content>
         {{ post.content }}
       </content>>
