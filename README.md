@@ -1,1 +1,12 @@
-https://reflectt6.github.io/
+### [魔改版 GITHUB IO 个人博客](https://reflectt6.github.io/)
+- 深度魔改jekyll官方主题
+- 自主实现文本搜索功能
+- 自主实现`sidebar`分区
+- 自主实现`headnav`分区
+- 自主实现自动目录生成功能
+- 自主实现响应式布局
+- 自主实现数学支持
+- ~~自主实现隐藏分区~~
+- 代码按功能解耦
+
+更新中...
