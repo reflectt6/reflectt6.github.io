@@ -100,7 +100,7 @@ CDN 依赖于称为“缓存”的过程，将文件副本临时存储在全球�
 
 使用[Anycast网络](https://www.cloudflare.com/zh-cn/learning/cdn/glossary/anycast-network/)实现负载均衡，Anycast 是一种网络寻址和路由方法。
 
-## 反向代理
+## [反向代理](https://www.cloudflare.com/zh-cn/learning/cdn/glossary/reverse-proxy/)
 
 ### 1、什么是代理？
 
@@ -149,6 +149,8 @@ CDN 依赖于称为“缓存”的过程，将文件副本临时存储在全球�
 
 
 ## 实践
+
+[github开源反代youtobe等](https://github.com/netptop/siteproxy?tab=readme-ov-file#%E9%83%A8%E7%BD%B2%E5%88%B0cloudflare_worker)，看了一下实现很简单，待尝试。。
 
 待尝试。。
 
