@@ -1,0 +1,16 @@
+---
+layout: page-without-sidebar
+title:  "特立独行的鱼"
+date:   2024-04-08 9:08:03 +0800
+author: reflectt6
+categories: about
+permalink: /about/
+mainTag: "朝花夕拾"
+secondaryTag: ""
+hideTag: true
+---
+鱼的记忆，如果当下不记录，那就永远丢失了。
+
+云化博客可以视为持久化的虚拟内存。
+
+科学技术是第一生产力。

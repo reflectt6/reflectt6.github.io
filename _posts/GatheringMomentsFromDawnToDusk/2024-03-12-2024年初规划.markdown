@@ -3,7 +3,7 @@ layout: page-with-sidebar
 title:  "2024年初规划"
 date:   2024-03-12 11:08:03 +0800
 author: reflectt6
-categories: 
+categories: "朝花夕拾"
 mainTag: "朝花夕拾"
 secondaryTag: "射手与农场主"
 hideTag: true
@@ -33,7 +33,7 @@ hideTag: true
 
 10、拒绝空想，实践是检验真理的唯一标准。
 
-11、改变是困难的，人对于未知总是处于恐惧，要谨慎大胆的卖出第一步。
+11、改变是困难的，人对于未知总是处于恐惧，要谨慎大胆的迈出第一步。
 
 
 
