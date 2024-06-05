@@ -3,7 +3,7 @@ layout: page-without-sidebar
 title:  "netfilter逆向"
 date:   2024-01-27 12:08:03 +0800
 author: reflectt6
-categories: "逆向即自由"
+categories: "Java逆向"
 mainTag: "逆向即自由"
 secondaryTag: "Java逆向"
 hideTag: false
