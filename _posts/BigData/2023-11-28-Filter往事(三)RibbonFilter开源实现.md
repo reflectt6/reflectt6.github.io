@@ -10,7 +10,7 @@ secondaryTag: "预研"
 hideTag: false
 ---
 
-## [RocksDB](https://github.com/facebook/rocksdb)
+## [RocksDB](https://github.com/facebook/rocksdb){:target="_blank"}
 
 RocksDB实现了Ribbon Filter，并且代码已经开源。
 
@@ -18,13 +18,13 @@ Facebook团队开发的key-value类型的存储库，采用c++开发，封装JNI
 
 与HBase很类似，都是支持任意大小的键值对。区别在于HBase专注于大数据生态。而RocksDB支持各种存储硬件，包括纯内存，闪存、硬盘、远程存储等。
 
-RocksDB详细文档在[github wiki](https://github.com/facebook/rocksdb/wiki)上
+RocksDB详细文档在[github wiki](https://github.com/facebook/rocksdb/wiki){:target="_blank"}上
 
-如何使用在[这里](https://github.com/facebook/rocksdb/wiki/Basic-Operations)
+如何使用在[这里](https://github.com/facebook/rocksdb/wiki/Basic-Operations){:target="_blank"}
 
-如何使用Java接口在[这里](https://github.com/facebook/rocksdb/wiki/RocksJava-Basics)
+如何使用Java接口在[这里](https://github.com/facebook/rocksdb/wiki/RocksJava-Basics){:target="_blank"}
 
-编译构建在[这里](https://github.com/facebook/rocksdb/blob/main/INSTALL.md)
+编译构建在[这里](https://github.com/facebook/rocksdb/blob/main/INSTALL.md){:target="_blank"}
 
 ### 源码分析（静态）
 
@@ -957,7 +957,7 @@ exp（x）：以e为底x的对数
 
 对于HBase中的Bloom如何实现，请见 [HBase章节](/大数据/2023/10/28/HBase.html)
 
-代码已上传[github](https://github.com/reflectt6/rocksdb)
+代码已上传[github](https://github.com/reflectt6/rocksdb){:target="_blank"}
 
 待解决问题：
 
@@ -1071,4 +1071,4 @@ fp_count = 84
 
 rocksdb中存在XXPH3.h头文件，ribbon filter的实现中也存在XXPH的字样，这是啥呢？
 
-根据头文件中的注释，XXPH就是XX Preview Hash的缩写。XX Hash是一种快速hash算法，在[github上开源](https://github.com/Cyan4973/xxHash)。而XX Preview Hash就是XX Hash的前瞻版。
+根据头文件中的注释，XXPH就是XX Preview Hash的缩写。XX Hash是一种快速hash算法，在[github上开源](https://github.com/Cyan4973/xxHash){:target="_blank"}。而XX Preview Hash就是XX Hash的前瞻版。
