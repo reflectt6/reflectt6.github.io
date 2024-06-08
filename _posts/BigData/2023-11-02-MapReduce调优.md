@@ -135,7 +135,7 @@ bash cron.sh &
 
 首先我使用jmap打印了map程序的堆内存，发现设置的很小，远远没有将集群的内存利用起来。
 
-通过下面的名称设置，可以看[官网Memory Management部分](https://hadoop.apache.org/docs/stable/hadoop-mapreduce-client/hadoop-mapreduce-client-core/MapReduceTutorial.html#Shuffle.2FReduce_Parameters)
+通过下面的名称设置，可以看[官网Memory Management部分](https://hadoop.apache.org/docs/stable/hadoop-mapreduce-client/hadoop-mapreduce-client-core/MapReduceTutorial.html#Shuffle.2FReduce_Parameters){:target="_blank"}
 
 ```
 mapreduce.{map|reduce}.memory.mb
@@ -161,7 +161,7 @@ map传给reduce的key-value为NullWritable和Record类，key统一设置为NullW
 
 
 
-## [理解官网](https://hadoop.apache.org/docs/stable/hadoop-mapreduce-client/hadoop-mapreduce-client-core/MapReduceTutorial.html)
+## [理解官网](https://hadoop.apache.org/docs/stable/hadoop-mapreduce-client/hadoop-mapreduce-client-core/MapReduceTutorial.html){:target="_blank"}
 
 #### Mapper
 
@@ -195,7 +195,7 @@ Reducer有三个主要的过程：
 
 - secondary sort
 
-  如果需要自定义排序方式，可以通过[Job.setGroupingComparatorClass(Class)](https://hadoop.apache.org/docs/stable/api/org/apache/hadoop/mapreduce/Job.html) 设置
+  如果需要自定义排序方式，可以通过[Job.setGroupingComparatorClass(Class)](https://hadoop.apache.org/docs/stable/api/org/apache/hadoop/mapreduce/Job.html){:target="_blank"} 设置
 
 - reduce
 
@@ -203,7 +203,7 @@ Reducer有三个主要的过程：
 
 #### How Many Reducer
 
-reduces的数量通过[Job.setNumReduceTasks(int)](https://hadoop.apache.org/docs/stable/api/org/apache/hadoop/mapreduce/Job.html)设置
+reduces的数量通过[Job.setNumReduceTasks(int)](https://hadoop.apache.org/docs/stable/api/org/apache/hadoop/mapreduce/Job.html){:target="_blank"}设置
 
 The right number of reduces seems to be `0.95` or `1.75` multiplied by (<*no. of nodes*> * <*no. of maximum containers per node*>).
 

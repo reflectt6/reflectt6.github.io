@@ -20,7 +20,7 @@ hideTag: false
 
 第一次看着这种文件着实吓了一跳。
 
-参考[文档](https://www.zhihu.com/question/49562139/answer/3187593997)中的方法一
+参考[文档](https://www.zhihu.com/question/49562139/answer/3187593997){:target="_blank"}中的方法一
 
 
 

@@ -16,7 +16,7 @@ protobuf、grpc被广泛应用与各个编程领域。包括但不限于大数�
 
 ## 介绍
 
-开始之前，先介绍一下什么是protobuf以及grpc。这里有一个现成的网站，详细讲了这一切。他就是[grpc的官网](https://grpc.io/docs/what-is-grpc/introduction/)。
+开始之前，先介绍一下什么是protobuf以及grpc。这里有一个现成的网站，详细讲了这一切。他就是[grpc的官网](https://grpc.io/docs/what-is-grpc/introduction/){:target="_blank"}。
 
 知道大多数人懒得看英文，我来翻译一波。
 
@@ -56,7 +56,7 @@ message Person {
 option java_outer_classname = "Foo";
 ```
 
-官网上有对各种语言的支持文档，例如[java文档](https://protobuf.dev/reference/java/java-generated/#invocation)
+官网上有对各种语言的支持文档，例如[java文档](https://protobuf.dev/reference/java/java-generated/#invocation){:target="_blank"}
 
 ### 定义gRPC（远程方法调用）
 

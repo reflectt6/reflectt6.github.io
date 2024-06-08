@@ -9,7 +9,7 @@ secondaryTag: "Middle"
 hideTag: false
 ---
 
-## [307. 区域和检索 - 数组可修改](https://leetcode.cn/problems/range-sum-query-mutable/)
+## [307. 区域和检索 - 数组可修改](https://leetcode.cn/problems/range-sum-query-mutable/){:target="_blank"}
 
 给你一个数组 `nums` ，请你完成两类查询。
 
@@ -136,7 +136,7 @@ class NumArray {
 
 ![image-20231113152624257](/assets/images/2023-11-13-LC307-树状数组//image-20231113152624257.png)
 
-可以看到我的两种方法遥遥落后！虽然如此，但是不必灰心，其实树状数组就是前缀和+分组，这两个优化点我都想到了。树状数组的核心难点在于如何分组，它不光分组了，还是一个树状结构的分组，用到了一种名为[LowBit](https://blog.csdn.net/weixin_45771864/article/details/115162596)的算法。这个名字不是说这个算法很Low的意思，它的意思是找到传入参数的二进制表示的最低位1所代表的数字（二进制表示就是机器码表示，例如一个负数，他的机器码是他的补码，也就是他对应的正数按位取反再加一），这个解释比较绕，他本身的含义就是这样，建议结合资料理解。
+可以看到我的两种方法遥遥落后！虽然如此，但是不必灰心，其实树状数组就是前缀和+分组，这两个优化点我都想到了。树状数组的核心难点在于如何分组，它不光分组了，还是一个树状结构的分组，用到了一种名为[LowBit](https://blog.csdn.net/weixin_45771864/article/details/115162596){:target="_blank"}的算法。这个名字不是说这个算法很Low的意思，它的意思是找到传入参数的二进制表示的最低位1所代表的数字（二进制表示就是机器码表示，例如一个负数，他的机器码是他的补码，也就是他对应的正数按位取反再加一），这个解释比较绕，他本身的含义就是这样，建议结合资料理解。
 
 代码就一行
 
@@ -217,7 +217,7 @@ private int prefixSum(int index) {
 
 ## 参考资料
 
-首先要理解lowbit做了什么，其次看看[csdn](https://blog.csdn.net/TheWayForDream/article/details/118436732)。最后结合知乎上的这段话理解
+首先要理解lowbit做了什么，其次看看[csdn](https://blog.csdn.net/TheWayForDream/article/details/118436732){:target="_blank"}。最后结合知乎上的这段话理解
 
 `简单来说，树状数组就是利用lowbit的性质，把n个节点串起来，隐式地构造一棵树（当n不是2幂次时，是一个森林）。每个节点x的父亲是x + lowbit(x)，每个节点维护其子节点的和。`
 
@@ -225,11 +225,11 @@ private int prefixSum(int index) {
 
 这就是lowbit的牛逼之处。
 
-[lowbit](https://blog.csdn.net/weixin_45771864/article/details/115162596)
+[lowbit](https://blog.csdn.net/weixin_45771864/article/details/115162596){:target="_blank"}
 
-[知乎1](https://zhuanlan.zhihu.com/p/546893960)
+[知乎1](https://zhuanlan.zhihu.com/p/546893960){:target="_blank"}
 
-[知乎2](https://zhuanlan.zhihu.com/p/93795692)
+[知乎2](https://zhuanlan.zhihu.com/p/93795692){:target="_blank"}
 
-[csdn](https://blog.csdn.net/TheWayForDream/article/details/118436732)
+[csdn](https://blog.csdn.net/TheWayForDream/article/details/118436732){:target="_blank"}
 

@@ -10,11 +10,11 @@ secondaryTag: "预研"
 hideTag: false
 ---
 
-## [Ribbon Filter](https://arxiv.org/abs/2103.02515)
+## [Ribbon Filter](https://arxiv.org/abs/2103.02515){:target="_blank"}
 
 ### 盲僧发现了华点
 
-1、参考[知乎](https://zhuanlan.zhihu.com/p/565523164)
+1、参考[知乎](https://zhuanlan.zhihu.com/p/565523164){:target="_blank"}
 
 2、一个r位数，每个位可能的取值为0或者1: $$ \{0,1\}^r $$
 
@@ -58,7 +58,7 @@ Section 7
 
 ### Section3（重要）
 
-静态方法就是我们之前讨论的要插入的key的集合已知的一种情况，“静态方法”的实现来自[论文](https://drops.dagstuhl.de/entities/document/10.4230/LIPIcs.ESA.2019.39)，通过矩阵高效求解高斯消元问题，ribbon过滤器实际上就是这个高斯方法的应用。
+静态方法就是我们之前讨论的要插入的key的集合已知的一种情况，“静态方法”的实现来自[论文](https://drops.dagstuhl.de/entities/document/10.4230/LIPIcs.ESA.2019.39){:target="_blank"}，通过矩阵高效求解高斯消元问题，ribbon过滤器实际上就是这个高斯方法的应用。
 
 #### sgauss构造器
 
