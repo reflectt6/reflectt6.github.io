@@ -74,7 +74,7 @@ $(document).ready(function () {
             $li2.append($("<h3 class='blog2'>" + st.sTag + "</h3>"))
             var $li3 = $("<div class='blog-div2'>")
             $(st.blogs).each(function (index, blog) {
-                var b = $("<h4><a class='blog3' href='" + blog.url + "'>" + blog.title + "</a></h4>")
+                var b = $("<h4><a class='blog3' href='" + blog.url + "' target=\"_blank\">" + blog.title + "</a></h4>")
                 $li3.append(b)
             })
             $li2.append($li3)

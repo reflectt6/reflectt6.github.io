@@ -120,7 +120,7 @@ function start_search() {
     if ($si.length === 0) {
         return
     }
-    if ($si.val() === '' || $si.val().search(/^\s+$/) >= 0) {
+    if ($si.val() === '' || $si.val().search(/^\s+$/) >= 0) { // 没有字符或者多个空白字符的情况
         // 输入空白的情况,提示暂无结果
         var $sr = $('#search-results')
         $sr.empty()
@@ -173,7 +173,7 @@ function jquery_search_action(titles, contents, input) {
             result_excerpt.text(get_resultExcerpt_withoutMark(contents[i]))
         }
         rd.append(result_excerpt)
-        var result_item = $('<a href="' + links[i] + '" class="result-a">')
+        var result_item = $('<a href="' + links[i] + '" class="result-a" target="_blank">')
         result_item.append(rd)
         if (matchedCount === 1) {
             // 找到第一个结果, 则清空结果框
