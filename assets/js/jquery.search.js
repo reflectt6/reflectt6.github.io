@@ -11,6 +11,7 @@ var mainTag = []
 var secondaryTag = []
 var showHide = window.location.href.endsWith('/hide/')
 var usedBlogs = 0
+var lastMouseX, lastMouseY;
 
 $.get("/feed.xml", function (data) {
     blogs = $(data).find("item")
@@ -33,16 +34,24 @@ $.get("/feed.xml", function (data) {
     }
 })
 
-function washContent(text) {
-    // 非贪婪模式匹配
-    return text.replaceAll(/<.*?>/g, "").replaceAll("\n", " ")
-}
+$(document).ready(function () {
+    // 不知道为啥文档就绪事件会触发两次，通过data标志位，判断事件是否已经被监听，防止多次监听事件带来的方法多次执行问题
+    // https://blog.51cto.com/u_16175504/7284150
+    var $body = $("body")
+    if (!$body.data("search-shortcut")) {
+        $body.on("keydown", function (e) {
+            // ctrl + k 打开搜索
+            if (e.ctrlKey && e.which === 75) {
+                open_search_bar()
+                e.preventDefault()
+            }
+        })
+        $body.data("search-shortcut", true)
+    }
+    search_text()
+})
 
-function washTag(text) {
-    // 非贪婪模式匹配
-    return text.replaceAll(/<.*?>/g, "").replaceAll("\n", " ").replaceAll(" ", "")
-}
-
+// 开关搜索栏
 function open_search_bar() {
     var $sb = $("#search-background1")
     if ($sb.length === 0) {
@@ -55,13 +64,27 @@ function open_search_bar() {
         $si.on('input', function () {
             start_search()
         })
+        $si.off('keyup');
+        $si.off('keydown');
+
         // ESC退出搜索
         $sb.on("keyup", function (e) {
-            if (e.keyCode === 27) {
-                close_search_bar()
-
+            switch (e.keyCode) {
+                case 27: // ESC
+                    close_search_bar()
+                    break;
+                case 13: // 回车键
+                    open_result();
+                    break;
+                case 38: // 上键
+                    up_key();
+                    break;
+                case 40: // 下键
+                    down_key();
+                    break;
             }
         });
+        $body.data("The result index of being selected", -1)
         $body.data("esc_search_bar_shortcut", true)
     }
     $sb.on("click", other_method_close_search_bar)
@@ -84,38 +107,42 @@ function other_method_close_search_bar(event) {
     }
 }
 
-
-$(document).ready(function () {
-    // 不知道为啥文档就绪事件会触发两次，通过data标志位，判断事件是否已经被监听，防止多次监听事件带来的方法多次执行问题
-    // https://blog.51cto.com/u_16175504/7284150
-    var $body = $("body")
-    if (!$body.data("search-shortcut")) {
-        $body.on("keydown", function (e) {
-            // ctrl + k 打开搜索
-            if (e.ctrlKey && e.which === 75) {
-                open_search_bar()
-                e.preventDefault()
-            }
-        })
-        $body.data("search-shortcut", true)
+// 用于页面初始化时 自动解析 搜索字段
+function search_text() {
+    // 解析 URL 参数
+    var params = getUrlParams(window.location.search);
+    if (!params.hasOwnProperty('search_text')) {
+        return
     }
-})
-
-
-function mouse_in(event) {
-    if (this === event.target || $(this).has(event.target).length > 0) {
-        $(this).css("background", "#202425")
+    if (window.find && window.getSelection) {
+        document.designMode = "on";
+        var sel = window.getSelection();
+        sel.collapse(document.body, 0);
+        while (window.find(params['search_text'])) {
+            // 设置背景色
+            document.execCommand("HiliteColor", false, "darkgreen");
+            // 设置文字颜色
+            document.execCommand("ForeColor", false, "#b5e853");
+            sel.collapseToEnd();
+        }
+        document.designMode = "off";
     }
 }
 
-function mouse_out(event) {
-    if (this === event.target || $(this).has(event.target).length > 0) {
-        $(this).css("background", "transparent")
+function getUrlParams(queryString) {
+    var params = {};
+    var queries = queryString.substring(1).split("&");
+    for (var i = 0; i < queries.length; i++) {
+        var pair = queries[i].split("=");
+        params[decodeURIComponent(pair[0])] = decodeURIComponent(pair[1]);
     }
+    return params;
 }
 
 
+// 各种动作
 function start_search() {
+    $("body").data("The result index of being selected", -1)
     var $si = $('#search-input')
     if ($si.length === 0) {
         return
@@ -182,6 +209,11 @@ function jquery_search_action(titles, contents, input) {
         $('#search-results').append(result_item)
         // 给结果条添加悬浮效果
         result_item.hover(mouse_in, mouse_out)
+        $("body").on('mousemove', function (event) { // 全局鼠标移动都要记录鼠标位置 为了mouse_in
+            lastMouseX = event.pageX
+            lastMouseY = event.pageY
+        })
+        result_item.on('mousemove', flush_select_effect)
     }
     if (matchedCount === 0) {
         $('#search-results').empty()
@@ -189,7 +221,102 @@ function jquery_search_action(titles, contents, input) {
     }
 }
 
+function autoScroll(index) {
+    var container = $('#search-results');
+    var top = container.scrollTop()
+    var bottom = container.scrollTop() + container.height()
+    var curHeight = -1
+    var $children = container.children();
+    var hasStart = false
+    var start = 0
+    var end = 1
+    var indexTopHeight = 0
+    for (var i = 0; i < $children.length; i++) { // 遍历所有result，计算每一个result上边沿距离父容器的距离
+        if (i === index) {
+            indexTopHeight = curHeight
+        }
+        if (curHeight > top && !hasStart) {
+            start = i
+            hasStart = true
+        }
+        var child = $children.eq(i);
+        curHeight += child.height() + 1 // 这个1是result-a这个class的border 1 理论来说应该读这个数而不是写死 我懒得搞了
+        if (curHeight > top && curHeight <= bottom) {
+            end = i;
+        } else if (curHeight > bottom && i >= index) {
+            break
+        }
+    }
+    if (index >= start && index <= end) {
+        return
+    }
+    container.animate({scrollTop: indexTopHeight}, 200);
+}
 
+function flush_select_effect() {
+    // 效果全部消失
+    $(".result-a").css("background", "transparent")
+    // 重新设置指定块 出现选中效果
+    var index = $("body").data("The result index of being selected")
+    var $target = $('#search-results').children().eq(index)
+    $target.css("background", "#202425")
+}
+
+function open_result() {
+    var resIndex = $('body').data("The result index of being selected")
+    if (resIndex === -1) return
+    var result = $('#search-results').children().eq(resIndex)
+    if (!result.attr("href").includes('search_text')) { // 防止重复添加搜索文本
+        result.attr("href", result.attr("href") + "?search_text=" + $('#search-input').val())
+    }
+    result.get(0).click()
+}
+
+// 鼠标/键盘 快捷操作
+function mouse_in(event) {
+    if (this === event.target || $(this).has(event.target).length > 0) {
+        if (event.pageX !== lastMouseX || event.pageY !== lastMouseY) {
+            // 鼠标位置发生了变化 防止页面自动scroll 触发mouse in
+            lastMouseX = event.pageX;
+            lastMouseY = event.pageY;
+            $("body").data("The result index of being selected", $(this).index())
+        }
+    }
+}
+
+function mouse_out(event) {
+    // do nothing
+}
+
+function up_key() {
+    var resNum = $('#search-results').children().length
+    if (resNum === 0) return
+    var $body = $("body")
+    var curIndex = $body.data("The result index of being selected")
+    var targetIndex = 0
+    if (curIndex > 0) {
+        targetIndex = curIndex - 1
+    }
+    $body.data("The result index of being selected", targetIndex)
+    flush_select_effect()
+    autoScroll(targetIndex)
+}
+
+function down_key() {
+    var resNum = $('#search-results').children().length
+    if (resNum === 0) return
+    var $body = $("body")
+    var curIndex = $body.data("The result index of being selected")
+    var targetIndex = resNum - 1
+    if (curIndex < resNum - 1) {
+        targetIndex = curIndex + 1
+    }
+    $body.data("The result index of being selected", targetIndex)
+    flush_select_effect()
+    autoScroll(targetIndex)
+}
+
+// 文本处理
 function get_result_excerpt(text, targetIndex, matchedLength) {
     var overflow = 88;
     var startIndex = targetIndex - overflow
@@ -219,6 +346,16 @@ function get_title_text(text, targetIndex, matchedLength) {
     return text.slice(0, targetIndex) +
         '<mark>' + text.slice(targetIndex, targetIndex + matchedLength) + '</mark>' +
         text.slice(targetIndex + matchedLength, text.length)
+}
+
+function washTag(text) {
+    // 非贪婪模式匹配
+    return text.replaceAll(/<.*?>/g, "").replaceAll("\n", " ").replaceAll(" ", "")
+}
+
+function washContent(text) {
+    // 非贪婪模式匹配
+    return text.replaceAll(/<.*?>/g, "").replaceAll("\n", " ")
 }
 
 
