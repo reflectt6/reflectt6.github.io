@@ -82,6 +82,12 @@ function open_search_bar() {
                 case 40: // 下键
                     down_key();
                     break;
+                case 33: // Page Up
+                    page_up();
+                    break;
+                case 34: // Page Down
+                    page_down();
+                    break;
             }
         });
         $body.data("The result index of being selected", -1)
@@ -253,6 +259,40 @@ function autoScroll(index) {
     container.animate({scrollTop: indexTopHeight}, 200);
 }
 
+function pageScroll(scrollTmp, isDown) {
+    var container = $('#search-results');
+    var $body = $('body')
+    if (scrollTmp < 0) { // scroll负数则默认滚动0
+        $body.data("The result index of being selected", 0)
+        container.animate({scrollTop: 0}, 200);
+        flush_select_effect()
+        return
+    }
+
+    var curHeight = -1
+    var $children = container.children();
+    for (var i = 0; i < $children.length; i++) { // scroll在中间，则匹配到具体项，scroll到他的顶部
+        var top = curHeight
+        var child = $children.eq(i);
+        curHeight += child.height() + 1 // 这个1是result-a这个class的border 1 理论来说应该读这个数而不是写死 我懒得搞了
+        if (scrollTmp >= top && scrollTmp <= curHeight) {
+            if (isDown) {
+                $body.data("The result index of being selected", i)
+                container.animate({scrollTop: top}, 200);
+            } else {
+                $body.data("The result index of being selected", i + 1)
+                container.animate({scrollTop: curHeight}, 200);
+            }
+            flush_select_effect()
+            return
+        }
+    }
+
+    $body.data("The result index of being selected", $children.length - 1)
+    container.animate({scrollTop: scrollTmp}, 200);
+    flush_select_effect()
+}
+
 function flush_select_effect() {
     // 效果全部消失
     $(".result-a").css("background", "transparent")
@@ -314,6 +354,16 @@ function down_key() {
     $body.data("The result index of being selected", targetIndex)
     flush_select_effect()
     autoScroll(targetIndex)
+}
+
+function page_up() {
+    var container = $('#search-results');
+    pageScroll((container.scrollTop() - container.height()), false);
+}
+
+function page_down() {
+    var container = $('#search-results');
+    pageScroll(container.scrollTop() + container.height(), true);
 }
 
 // 文本处理
