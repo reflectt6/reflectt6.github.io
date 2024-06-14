@@ -8,7 +8,7 @@ $(document).ready(function () {
     if ($ul.length === 0) {
         return
     }
-    var showHide = window.location.href.endsWith('/hide/')
+    var showHide = window.location.href.includes('/hide/')
     var $li = $ul.children("li");
     var mainTagList = [];
     var blog_count = 0;

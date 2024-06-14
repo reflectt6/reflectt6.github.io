@@ -9,7 +9,7 @@ var links = []
 var contents = []
 var mainTag = []
 var secondaryTag = []
-var showHide = window.location.href.endsWith('/hide/')
+var showHide = window.location.href.includes('/hide/')
 var usedBlogs = 0
 var lastMouseX, lastMouseY;
 

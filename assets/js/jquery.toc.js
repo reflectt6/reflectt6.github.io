@@ -2,6 +2,7 @@
  * Copyright (c) 2023 reflectt6
  */
 
+var isBlog = window.location.href.includes('/hide/') || window.location.href.includes('/blog/')
 function active(event) {
     var act = $("#active")
     if (act.length > 0) {
@@ -36,7 +37,7 @@ function indexToggle(event) {
         // var link = '<a class="toctext" href="#%1" %5>%2 %3</a>%6%4'
         var target = ""
         var href = "#%1"
-        if (level === 3) {
+        if (level === 3 && isBlog) {
             // 第三级索引直接跳转 在新页面打开
             target = 'target="_blank"'
             href = "%1"
@@ -128,7 +129,10 @@ function indexToggle(event) {
                     var anchorId = config.anchorPrefix
                         + firstSection + '-' + secondSection + '-' + thirdSection;
                     level3.attr('id', anchorId);
-                    var link = $(`#${anchorId}`).children("a:first").attr("href");
+                    var link = anchorId
+                    if (isBlog) {
+                        link = $(`#${anchorId}`).children("a:first").attr("href");
+                    }
                     thirdLevelHTML += createLevelHTML(link,
                         curTocLevel,
                         totalSection,
