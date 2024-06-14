@@ -34,7 +34,14 @@ function indexToggle(event) {
     function createLevelHTML(anchorId, tocLevel, tocSection, tocNumber, tocText, tocInner, level) {
         // var link = '<a href="#%1"><span class="tocnumber">%2</span> <span class="toctext">%3</span></a>%4'
         // var link = '<a class="toctext" href="#%1" %5>%2 %3</a>%6%4'
-        var link = '<a class="toctext" href="#%1" onclick="active(this)">%2 %3</a>%6%4'
+        var target = ""
+        var href = "#%1"
+        if (level === 3) {
+            // 第三级索引直接跳转 在新页面打开
+            target = 'target="_blank"'
+            href = "%1"
+        }
+        var link = `<a class="toctext" href=${href} onclick="active(this)" ${target}>%2 %3</a>%6%4`
             .replace('%1', anchorId)
             .replace('%2', tocNumber)
             .replace('%3', tocText)
@@ -121,7 +128,8 @@ function indexToggle(event) {
                     var anchorId = config.anchorPrefix
                         + firstSection + '-' + secondSection + '-' + thirdSection;
                     level3.attr('id', anchorId);
-                    thirdLevelHTML += createLevelHTML(anchorId,
+                    var link = $(`#${anchorId}`).children("a:first").attr("href");
+                    thirdLevelHTML += createLevelHTML(link,
                         curTocLevel,
                         totalSection,
                         firstSection + '.' + secondSection + '.' + thirdSection,
