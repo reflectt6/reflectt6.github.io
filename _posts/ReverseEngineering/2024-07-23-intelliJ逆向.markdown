@@ -1,0 +1,32 @@
+---
+layout: page-without-sidebar
+title:  "IntelliJ逆向"
+date:   2024-07-23 9:08:03 +0800
+author: reflectt6
+categories: "Java逆向"
+mainTag: "逆向即自由"
+secondaryTag: "Java逆向"
+hideTag: false
+---
+## 资料
+
+[思路贴](https://linux.do/t/topic/469)
+
+[gradle教程](https://docs.gradle.org/current/userguide/quick_start.html)
+
+[Idea插件调试](https://www.jianshu.com/p/9054640a3088)
+
+
+
+## 思路
+
+- 找一个idea plugin了解License校验流程，例如这个[项目](https://github.com/JetBrains/marketplace-makemecoffee-plugin/tree/master)
+
+  这个项目是gradle驱动的，很多报错我都束手无策。以后深入学习gradle之后可以再看看。
+
+  有一个简单方式调试该项目，见[Idea插件调试](https://www.jianshu.com/p/9054640a3088)
+
+- 
+
+
+
